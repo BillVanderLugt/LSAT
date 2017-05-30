@@ -1,11 +1,11 @@
 June 1991 (LSAT PrepTest 1)
-Game #1: Circular Linearity: Balanced
+Game #1: Circular Linearity: Balanced, Bible
 Game #2: Advanced Linear: Balanced
 Game #3: Pure Sequencing
 Game #4: Advanced Linear: Unbalanced: Underfunded
 October 1991 (LSAT PrepTest 2)
 Game #1: Pure Sequencing, Identify the Possibilities
-Game #2: Basic Linear: Unbalanced: Overloaded
+Game #2: Basic Linear: Unbalanced: Overloaded, Bible
 Game #3: Grouping: Defined-Moving, Balanced, Numerical Distribution
 Game #4: Advanced Linear: Balanced
 December 1991 (LSAT PrepTest 3)
@@ -31,11 +31,11 @@ Game #4: Mapping-Spatial Relations, , , [This could classified as a Grouping gam
 December 1992 (LSAT PrepTest 18)
 Game #1: Grouping: Defined-Fixed, Balanced
 Game #2: Basic Linear: Balanced, Identify the Templates
-Game #3: Mapping- Spatial Relations
+Game #3: Mapping-Spatial Relations
 Game #4: Grouping: Partially Defined
 February 1993 (LSAT PrepTest 7)
 Game #1: Basic Linear: Balanced
-Game #2: Advanced Linear: Balanced
+Game #2: Advanced Linear: Balanced, Bible
 Game #3: Grouping: Defined-Moving, Balanced, Numerical Distribution
 Game #4: Advanced Linear: Balanced, Identify the Templates
 June 1993 (LSAT PrepTest 8)
@@ -46,13 +46,13 @@ Game #4: Grouping: Partially Defined
 October 1993 (LSAT PrepTest 9)
 Game #1: Grouping: Defined-Fixed, Unbalanced: Underfunded, Numerical Distribution
 Game #2: Grouping: Defined-Fixed, Unbalanced: Overloaded
-Game #3: Pattern
+Game #3: Pattern, Bible
 Game #4: Mapping-Supplied Diagram, , , [Like many Mapping games this one has strong grouping elements.]
 February 1994 (LSAT PrepTest 10)
 Game #1: Pure Sequencing
 Game #2: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Possibilities
 Game #3: Pattern
-Game #4: Grouping/Linear Combination
+Game #4: Grouping/Linear Combination, Bible
 June 1994 (LSAT PrepTest 11)
 Game #1: Grouping: Defined-Moving, Balanced
 Game #2: Basic Linear: Unbalanced: Underfunded, Numerical Distribution
@@ -66,7 +66,7 @@ Game #4: Pattern: Identify the Possibilities
 December 1994 (LSAT PrepTest 13)
 Game #1: Grouping: Defined-Fixed, Balanced
 Game #2: Basic Linear: Balanced
-Game #3: Grouping/Linear Combination
+Game #3: Grouping/Linear Combination, Bible
 Game #4: Pattern
 February 1995 (LSAT PrepTest 14)
 Game #1: Grouping: Defined-Moving, Balanced, Numerical Distribution
@@ -75,7 +75,7 @@ Game #3: Grouping: Partially Defined, Numerical Distribution
 Game #4: Advanced Linear: Unbalanced: Overloaded
 June 1995 (LSAT PrepTest 15)
 Game #1: Basic Linear: Balanced
-Game #2: Mapping, , , [Again one with strong grouping elements. This game is presented in Chapter Seven.]
+Game #2: Mapping, Bible, , [Again one with strong grouping elements. This game is presented in Chapter Seven.]
 Game #3: Basic Linear: Unbalanced: Underfunded, Numerical Distribution
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded
 September 1995 (LSAT PrepTest 16)
@@ -94,27 +94,27 @@ Game #2: Advanced Linear: Balanced, Identify the Templates
 Game #3: Advanced Linear: Balanced
 Game #4: Advanced Linear: Unbalanced: Overloaded, Identify the Templates
 June 1996 (LSAT PrepTest 19)
-Game #1: Basic Linear: Balanced
+Game #1: Basic Linear: Balanced, Bible
 Game #2: Advanced Linear: Balanced, Numerical Distribution, Identify the Templates
 Game #3: Grouping: Defined-Fixed, Balanced
 Game #4: Grouping: Defined-Fixed, Balanced
-October 1996 (PrepTest 20)
+October 1996 (LSAT PrepTest 20)
 Game #1: Advanced Linear: Unbalanced: Underfunded
-Game #2: Grouping: Defined-Fixed, Unbalanced: Overloaded
+Game #2: Grouping: Defined-Fixed, Unbalanced: Overloaded, Bible
 Game #3: Pattern
 Game #4: Grouping/Linear Combination
 December 1996 (LSAT PrepTest 21)
 Game #1: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Templates
 Game #2: Basic Linear: Unbalanced: Overloaded
 Game #3: Advanced Linear: Unbalanced: Underfunded
-Game #4: Basic Linear: Unbalanced: Underfunded
-February 1997 (The Official LSAT PrepTest with Explanations, Volume One)
+Game #4: Basic Linear: Unbalanced: Underfunded, Bible
+February 1997 (The Official LSAT Prep with Explanations, Volume One)
 Game #1: Basic Linear: Unbalanced: Overloaded, Numerical Distribution
 Game #2: Grouping: Defined-Fixed, Balanced, Identify the Possibilities
 Game #3: Pattern
 Game #4: Advanced Linear: Balanced, Identify the Possibilities
 June 1997 (LSAT PrepTest 22)
-Game #1: Grouping: Defined-Moving, Balanced
+Game #1: Grouping: Defined-Moving, Balanced, Bible
 Game #2: Advanced Linear: Balanced, Identify the Templates
 Game #3: Advanced Linear: Balanced
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded
@@ -122,7 +122,7 @@ October 1997 (LSAT PrepTest 23)
 Game #1: Basic Linear: Balanced
 Game #2: Grouping: Undefined
 Game #3: Grouping: Defined-Fixed, Unbalanced: Overloaded
-Game #4: Pattern
+Game #4: Pattern, Bible
 December 1997 (LSAT PrepTest 24)
 Game #1: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Possibilities
 Game #2: Basic Linear: Balanced
@@ -134,8 +134,8 @@ Game #2: Grouping: Defined-Moving, Balanced
 Game #3: Grouping: Defined-Moving, Balanced, Identify the Templates
 Game #4: Advanced Linear: Balanced
 September 1998 (LSAT PrepTest 26)
-Game #1: Advanced Linear: Balanced
-Game #2: Basic Linear: Balanced
+Game #1: Advanced Linear: Balanced, Bible
+Game #2: Basic Linear: Balanced, Bible
 Game #3: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Possibilities
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded, Identify the Possibilities
 December 1998 (LSAT PrepTest 27)
@@ -150,11 +150,11 @@ Game #3: Circular Linearity
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded
 June 1999 (LSAT PrepTest 28)
 Game #1: Basic Linear: Balanced, Identify the Templates
-Game #2: Grouping: Defined-Fixed, Unbalanced: Underfunded
+Game #2: Grouping: Defined-Fixed, Unbalanced: Underfunded, Bible
 Game #3: Advanced Linear: Balanced
-Game #4: Advanced Linear: Balanced, Identify the Possibilities
+Game #4: Advanced Linear: Balanced, Identify the Possibilities, Bible
 October 1999 (LSAT PrepTest 29)
-Game #1: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Possibilities
+Game #1: Grouping: Defined-Moving: Balanced, Numerical Distribution, Identify the Possibilities, Bible
 Game #2: Grouping: Defined-Fixed, Unbalanced: Overloaded, Identify the Templates
 Game #3: Basic Linear: Balanced
 Game #4: Basic Linear: Unbalanced: Overloaded, Numerical Distribution
@@ -171,7 +171,7 @@ Game #4: Advanced Linear: Unbalanced: Overloaded, Numerical Distribution
 June 2000 (LSAT PrepTest 31)
 Game #1: Advanced Linear: Unbalanced: Overloaded, Numerical Distribution
 Game #2: Grouping: Undefined
-Game #3: Basic Linear: Unbalanced: Underfunded, Identify the Templates
+Game #3: Basic Linear: Unbalanced: Underfunded, Identify the Templates, Bible
 Game #4: Grouping/Linear Combination, Numerical Distribution
 October 2000 (LSAT PrepTest 32)
 Game #1: Grouping/Linear Combination
@@ -179,8 +179,8 @@ Game #2: Grouping: Partially Defined, Numerical Distribution
 Game #3: Basic Linear: Balanced
 Game #4: Advanced Linear: Unbalanced: Underfunded, Identify the Templates
 December 2000 (LSAT PrepTest 33)
-Game #1: Pure Sequencing
-Game #2: Grouping: Undefined
+Game #1: Pure Sequencing, Bible
+Game #2: Grouping: Undefined, Bible
 Game #3: Grouping: Defined-Moving, Unbalanced: Overloaded, Numerical Distribution
 Game #4: Advanced Linear: Unbalanced: Underfunded
 June 2001 (LSAT PrepTest 34)
