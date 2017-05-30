@@ -27,7 +27,7 @@ October 1992 (LSAT PrepTest 6)
 Game #1: Grouping: Defined-Moving, Balanced, Numerical Distribution
 Game #2: Pure Sequencing
 Game #3: Mapping-Supplied Diagram, Directional
-Game #4: Mapping-Spatial Relations [This could classified as a Grouping game: the map has little impact since the bridges are not straight.]
+Game #4: Mapping-Spatial Relations, , , [This could classified as a Grouping game- the map has little impact since the bridges are not straight.]
 December 1992 (LSAT PrepTest 18)
 Game #1: Grouping: Defined-Fixed, Balanced
 Game #2: Basic Linear: Balanced, Identify the Templates
@@ -47,7 +47,7 @@ October 1993 (LSAT PrepTest 9)
 Game #1: Grouping: Defined-Fixed, Unbalanced: Underfunded, Numerical Distribution
 Game #2: Grouping: Defined-Fixed, Unbalanced: Overloaded
 Game #3: Pattern
-Game #4: Mapping-Supplied Diagram [Like many Mapping games this one has strong grouping elements.]
+Game #4: Mapping-Supplied Diagram, , , [Like many Mapping games this one has strong grouping elements.]
 February 1994 (LSAT PrepTest 10)
 Game #1: Pure Sequencing
 Game #2: Grouping: Defined-Moving, Balanced, Numerical Distribution, Identify the Possibilities
@@ -75,7 +75,7 @@ Game #3: Grouping: Partially Defined, Numerical Distribution
 Game #4: Advanced Linear: Unbalanced: Overloaded
 June 1995 (LSAT PrepTest 15)
 Game #1: Basic Linear: Balanced
-Game #2: Mapping [Again, one with strong grouping elements. This game is presented in Chapter Seven.]
+Game #2: Mapping, , , [Again one with strong grouping elements. This game is presented in Chapter Seven.]
 Game #3: Basic Linear: Unbalanced: Underfunded, Numerical Distribution
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded
 September 1995 (LSAT PrepTest 16)
@@ -165,7 +165,7 @@ Game #3: Advanced Linear: Balanced, Identify the Templates
 Game #4: Basic Linear: Balanced
 February 2000 (LSAT SuperPrep Test C)
 Game #1: Grouping: Defined-Fixed, Balanced
-Game #2: Pure Sequencing [The rules produce two separate sequences that capture all possible orders in this game.]
+Game #2: Pure Sequencing, , , [The rules produce two separate sequences that capture all possible orders in this game.]
 Game #3: Grouping: Partially Defined, Numerical Distribution
 Game #4: Advanced Linear: Unbalanced: Overloaded, Numerical Distribution
 June 2000 (LSAT PrepTest 31)
@@ -216,7 +216,7 @@ Game #4: Grouping: Undefined
 June 2003 (LSAT PrepTest 40)
 Game #1: Basic Linear: Balanced
 Game #2: Grouping/Linear Combination
-Game #3: Grouping: Partially Defined [Like many “Mapping” games, this game is really a Grouping game: the focus is on the connections, and they can best be displayed as grouping relationships.]
+Game #3: Grouping: Partially Defined, , , [Like many “Mapping” games this game is really a Grouping game. The focus is on the connections and they can best be displayed as grouping relationships.]
 Game #4: Grouping: Defined-Fixed, Unbalanced: Overloaded
 September 2003 (LSAT PrepTest 41)
 Game #1: Basic Linear: Balanced, Identify the Templates
