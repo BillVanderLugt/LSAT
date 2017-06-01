@@ -39,9 +39,8 @@ def read_prompts():
         type = 'error'
         print (name)
         with open(name) as f:
-            line = True
-            while line:
-                line = f.readline().strip()
+            line = f.readline().strip()
+            while line != '--END--':
                 #print (line)
                 if line[:4]=="####":
                     contents = line.split(' ')
@@ -53,20 +52,20 @@ def read_prompts():
                     _, month, year, _, game_num, _ = contents
                     #line = f.readline().strip()
                     # print
-                    # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
+                    print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
                     line = f.readline().strip()
                     prompt = []
-                    while line[:1]!='#':
+                    while line[:2]!='##':
                         prompt.append(line)
                         line = f.readline().strip()
-                        # print ("prompt line", line)
-                    line = f.readline() # eat spacer
+                        print ("prompt line", line)
+                    #line = f.readline() # eat spacer
                     rule_list = []
                     line = f.readline().strip()
-                    while line[:1]!='#':
+                    while line[:2]!='##' and line!='--END--':
                         rule_list.append(line)
                         line = f.readline().strip()
-                        #print ("rule line", line)
+                        print ("rule line", line)
                     # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
                     # print ("PROMPT:")
                     # print (prompt)
@@ -133,7 +132,7 @@ if __name__ == '__main__':
     for i, p in enumerate(prompts):
         if len(p)>0:
             counter += 1
-            #print (counter, df.year[i], df.month[i], df.primary_type[i], df.own[i])
+            print (counter, df.year[i], df.month[i], df.primary_type[i], df.own[i])
 
     '''
                                  total_counts  percent_overall  owned_counts  percent_of_owned  held_out  percent_held
