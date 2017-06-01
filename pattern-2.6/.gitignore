@@ -1,0 +1,12 @@
+*.pyc
+*.dev*
+*.nja
+
+build
+dist
+
+pattern/web/cache/tmp/
+web/cache/tmp/
+test/pattern_unittest_db
+
+.DS_Store
