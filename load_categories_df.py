@@ -128,12 +128,18 @@ if __name__ == '__main__':
     rules = [[] for i in range(df.shape[0])]
     #print ('init as', prompts)
     read_prompts()
+    df.game_num[9]=2 # manual correction of wierd error
+    df.game_num[35]=1 # manual correction of wierd error
+    df.primary_type[9]='Basic Linear' # manual correction of wierd error
+    df.primary_type[35]='Basic Linear' # manual correction of wierd error
     counter = 0
+    df['keyed_pr'] = False
     for i, p in enumerate(prompts):
         if len(p)>0:
             counter += 1
             print (counter, df.year[i], df.month[i], df.primary_type[i], df.own[i])
-
+            df.keyed_pr[i] = True
+    keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
     '''
                                  total_counts  percent_overall  owned_counts  percent_of_owned  held_out  percent_held
 Advanced Linear                        85        23.876404          71.0         25.000000      14.0     16.470588
@@ -149,33 +155,62 @@ Mapping-Supplied Diagram                3         0.842697           3.0        
 Pattern                                12         3.370787           8.0          2.816901       4.0     33.333333
 Pure Sequencing                        23         6.460674          17.0          5.985915       6.0     26.086957
 
-In [107]: run load_categories_df.py
 1 1991 June Pure Sequencing Book One
-2 1991 October Basic Linear Book One
-3 1991 December Advanced Linear Book One
-4 1992 February Pure Sequencing Book One
-5 1992 February Grouping Book One
-6 1992 June Basic Linear Book One
-7 1992 June Grouping Book One
-8 1992 December Grouping Book One
-9 1993 June Basic Linear Book One
-10 1993 October Grouping Book One
-11 1994 February Pure Sequencing Book One
-12 1994 June Grouping Book One
-13 1994 October Grouping Book One
-14 1995 February Grouping Book One
-15 1995 June Basic Linear Book One
-16 1995 September Grouping Book One
-17 1996 June Basic Linear Book One
-18 1996 June Grouping Book One
-19 2007 September Pure Sequencing 10 New Actual
-20 2008 October Pure Sequencing 10 New Actual
-21 2010 December Basic Linear Vol V
-22 2011 June Basic Linear Vol V
-23 2011 June Basic Linear Vol V
-24 2011 December Basic Linear Vol V
-25 2012 June Basic Linear Vol V
-26 2013 June Basic Linear Vol V
-27 2013 December Pure Sequencing Vol V
-28 2013 December Basic Linear Vol V
+2 1991 October Pure Sequencing Book One
+3 1991 October Basic Linear Book One
+4 1991 December Advanced Linear Book One
+5 1991 December Basic Linear Book One
+6 1991 December Grouping Book One
+7 1992 February Pure Sequencing Book One
+8 1992 February Grouping Book One
+9 1992 June Basic Linear Book One
+10 1992 June Grouping Book One
+11 1992 June Grouping Book One
+12 1992 October Pure Sequencing Book One
+13 1992 December Grouping Book One
+14 1992 December Grouping Book One
+15 1993 February Basic Linear Book One
+16 1993 June Basic Linear Book One
+17 1993 June Advanced Linear Book One
+18 1993 October Grouping Book One
+19 1994 February Pure Sequencing Book One
+20 1994 June Grouping Book One
+21 1994 June Grouping Book One
+22 1994 October Grouping Book One
+23 1994 October Grouping Book One
+24 1994 December Grouping Book One
+25 1994 December Basic Linear Book One
+26 1995 February Grouping Book One
+27 1995 June Basic Linear Book One
+28 1995 June Grouping Book One
+29 1995 September Grouping Book One
+30 1995 December Basic Linear Book One
+31 1995 December Grouping Book One
+32 1996 June Basic Linear Book One
+33 1996 June Grouping Book One
+34 1996 June Grouping Book One
+35 2007 September Pure Sequencing 10 New Actual
+36 2007 December Pure Sequencing 10 New Actual
+37 2008 October Pure Sequencing 10 New Actual
+38 2010 October Pure Sequencing 10 New Actual
+39 2010 December Basic Linear Vol V
+40 2010 December Basic Linear Vol V
+41 2011 June Basic Linear Vol V
+42 2011 June Basic Linear Vol V
+43 2011 June Basic Linear Vol V
+44 2011 October Basic Linear Vol V
+45 2011 December Basic Linear Vol V
+46 2011 December Basic Linear Vol V
+47 2012 June Basic Linear Vol V
+48 2012 October Basic Linear Vol V
+49 2013 June Basic Linear Vol V
+50 2013 October Basic Linear Vol V
+51 2013 December Pure Sequencing Vol V
+52 2013 December Basic Linear Vol V
+
+                 month  year  published_as  test_num  game_num  secondary_type  tertiary_type  own  notes1  notes2  notes3  keyed_pr
+primary_type
+Basic Linear        24    24            24        24        24              24             24   24       8       0       0        24
+Grouping            18    18            18        18        18              18             18   18      15       3       0        18
+Pure Sequencing     10    10            10        10        10              10             10   10       1       0       0        10
 '''
