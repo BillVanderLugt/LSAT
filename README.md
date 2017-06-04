@@ -46,19 +46,19 @@ To answer questions about logic games, five steps must be performed.  Here, I de
 I will use standard text classification tools from SpaCy and Sci-Kit Learn, perhaps aided by feature engineering, to determine what type of puzzle the prompt represents.
 
 2. Set-Up: _medium_  
-I will use SpaCy's entity recognizer to extract the names of the relevant entities from the puzzle prompt.  The possible permutations/combinations of these names will define the event space for the puzzle--that is, the possible solutions to the puzzle.
+I will use SpaCy's entity recognizer to extract the names of the relevant entities from the puzzle prompt.  The possible permutations/combinations of these names define the event space for the puzzle--that is, the possible solutions to the puzzle.
 
 3. Parse Rules: _very difficult_  
 The number of possible permutations shrinks as rules are introduced that limit the permissible permutations.  To parse these rules, I will construct a Chomsky Formal Grammar and write a parser that translates the LSAT's English statements of the rules into executable functions.  
 
 4. Apply the Rules to Narrow the Possible Solutions: _medium_  
-The rules must be applied to all the events in the puzzle's sample space to determine the set of all permissible solutions to the puzzle.
+The rules are then applied to all the events in the puzzle's sample space to reduce the set of possible solutions to the puzzle.
 
 5. Parse Questions: _medium_  
-The questions must be parsed to determine what is being asked.
+The questions must be parsed to determine what is being asked.  Some questions impose additional, local rules, which further reduce the number of possible solutions.  These local rules must be parsed as in Step 3.
 
 6. Parse Multiple Choice Answers: _easy_  
-The 5 possible answers must be parsed.
+The test's five possible answers must be parsed.
 
 7. Select Answer: _easy_  
-The correct answer must be identified.
+From the five answers, the correct answer must be identified.
