@@ -34,11 +34,11 @@ def load(file):
     return array
 
 def read_prompts():
-    names = ['../Book_One_prompts.txt', '../Vol_V_prompts.txt', '../New_Actual.txt']
+    names = ['Book_One_prompts.txt', 'Vol_V_prompts.txt', 'New_Actual.txt', '10_Actual.txt']
     for name in names:
         type = 'error'
         print (name)
-        with open(name) as f:
+        with open('../data/' + name) as f:
             line = f.readline().strip()
             while line != '--END--':
                 #print (line)
@@ -52,20 +52,20 @@ def read_prompts():
                     _, month, year, _, game_num, _ = contents
                     #line = f.readline().strip()
                     # print
-                    print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
+                    #print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
                     line = f.readline().strip()
                     prompt = []
                     while line[:2]!='##':
                         prompt.append(line)
                         line = f.readline().strip()
-                        print ("prompt line", line)
+                        #print ("prompt line", line)
                     #line = f.readline() # eat spacer
                     rule_list = []
                     line = f.readline().strip()
                     while line[:2]!='##' and line!='--END--':
                         rule_list.append(line)
                         line = f.readline().strip()
-                        print ("rule line", line)
+                        #print ("rule line", line)
                     # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
                     # print ("PROMPT:")
                     # print (prompt)
@@ -75,7 +75,7 @@ def read_prompts():
                     subset = df[df.year==year]
                     subset = subset[subset.month==month]
                     subset = subset[subset.game_num==int(game_num)]          #(df.game_num==int(game_num))]
-                    print (month, year, int(game_num))
+                    #print (month, year, int(game_num))
                     try:
                         idx = subset.index.tolist()[0]
                         prompts[idx] = prompt
@@ -97,8 +97,19 @@ def get_counts(input, col_names):
     type_counts[col_names[1]] = type_counts[col_names[0]] * 100/ len(input)
     return type_counts
 
-def main():
-    pass
+def save_pickle(file, name):
+    with open("classification_data/" + name + ".pkl", 'w') as f:
+        pickle.dump(file, f)
+    print ("done pickling ", name)
+
+def load_pickle(name):
+    '''
+    returns unpickled file
+    '''
+    with open("classification_data/" + name + ".pkl") as f_un:
+        file_unpickled = pickle.load(f_un)
+    print ("done unpickling ", name)
+    return file_unpickled
 
 if __name__ == '__main__':
     pd.set_option('display.max_rows', 500)
@@ -111,7 +122,7 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(array, columns=cols)
     df.index = df.index + 1 # since game_num starts at 1, test_num should too
-
+    #df['indices'] = df.index
     # for convenience create various subsets of the df:
     df_owned = get_owned(df) # games I own ~ training data
     bible_games = df[df.values == 'Bible'] # games dissected in PowerScore's Bible
@@ -123,7 +134,12 @@ if __name__ == '__main__':
                                        combined_type_counts['owned_counts']
     combined_type_counts['percent_held'] = combined_type_counts['held_out'] * 100/ \
                                    combined_type_counts['total_counts']
-    #print (combined_type_counts)
+
+    all_seq_games = df[df.primary_type=='Pure Sequencing']
+    seq_games_owned = all_seq_games[all_seq_games.own != 'missing']
+    print ("Total sequencing games:", len(all_seq_games))
+    print ("Owned sequencing games:", len(seq_games_owned))
+
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
     #print ('init as', prompts)
@@ -137,9 +153,13 @@ if __name__ == '__main__':
     for i, p in enumerate(prompts):
         if len(p)>0:
             counter += 1
-            print (counter, df.year[i], df.month[i], df.primary_type[i], df.own[i])
+            print (counter, df.index[i], df.year[i], df.month[i], df.primary_type[i], df.own[i])
             df.keyed_pr[i] = True
     keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
+
+    print ("Total sequencing games:", len(all_seq_games))
+    print ("Owned sequencing games:", len(seq_games_owned))
+    print (df[(df.own=='10 Actual') & (df.primary_type=='Pure Sequencing')])
     '''
                                  total_counts  percent_overall  owned_counts  percent_of_owned  held_out  percent_held
 Advanced Linear                        85        23.876404          71.0         25.000000      14.0     16.470588
@@ -155,62 +175,67 @@ Mapping-Supplied Diagram                3         0.842697           3.0        
 Pattern                                12         3.370787           8.0          2.816901       4.0     33.333333
 Pure Sequencing                        23         6.460674          17.0          5.985915       6.0     26.086957
 
-1 1991 June Pure Sequencing Book One
-2 1991 October Pure Sequencing Book One
-3 1991 October Basic Linear Book One
-4 1991 December Advanced Linear Book One
-5 1991 December Basic Linear Book One
-6 1991 December Grouping Book One
-7 1992 February Pure Sequencing Book One
-8 1992 February Grouping Book One
-9 1992 June Basic Linear Book One
-10 1992 June Grouping Book One
-11 1992 June Grouping Book One
-12 1992 October Pure Sequencing Book One
-13 1992 December Grouping Book One
-14 1992 December Grouping Book One
-15 1993 February Basic Linear Book One
-16 1993 June Basic Linear Book One
-17 1993 June Advanced Linear Book One
-18 1993 October Grouping Book One
-19 1994 February Pure Sequencing Book One
-20 1994 June Grouping Book One
-21 1994 June Grouping Book One
-22 1994 October Grouping Book One
-23 1994 October Grouping Book One
-24 1994 December Grouping Book One
-25 1994 December Basic Linear Book One
-26 1995 February Grouping Book One
-27 1995 June Basic Linear Book One
-28 1995 June Grouping Book One
-29 1995 September Grouping Book One
-30 1995 December Basic Linear Book One
-31 1995 December Grouping Book One
-32 1996 June Basic Linear Book One
-33 1996 June Grouping Book One
-34 1996 June Grouping Book One
-35 2007 September Pure Sequencing 10 New Actual
-36 2007 December Pure Sequencing 10 New Actual
-37 2008 October Pure Sequencing 10 New Actual
-38 2010 October Pure Sequencing 10 New Actual
-39 2010 December Basic Linear Vol V
-40 2010 December Basic Linear Vol V
-41 2011 June Basic Linear Vol V
-42 2011 June Basic Linear Vol V
-43 2011 June Basic Linear Vol V
-44 2011 October Basic Linear Vol V
-45 2011 December Basic Linear Vol V
-46 2011 December Basic Linear Vol V
-47 2012 June Basic Linear Vol V
-48 2012 October Basic Linear Vol V
-49 2013 June Basic Linear Vol V
-50 2013 October Basic Linear Vol V
-51 2013 December Pure Sequencing Vol V
-52 2013 December Basic Linear Vol V
 
-                 month  year  published_as  test_num  game_num  secondary_type  tertiary_type  own  notes1  notes2  notes3  keyed_pr
+2 6 1991 October Pure Sequencing Book One
+3 7 1991 October Basic Linear Book One
+4 10 1991 December Basic Linear Book One
+5 11 1991 December Basic Linear Book One
+6 13 1991 December Grouping Book One
+7 14 1992 February Pure Sequencing Book One
+8 15 1992 February Grouping Book One
+9 18 1992 June Basic Linear Book One
+10 19 1992 June Grouping Book One
+11 20 1992 June Grouping Book One
+12 23 1992 October Pure Sequencing Book One
+13 26 1992 December Grouping Book One
+14 29 1992 December Grouping Book One
+15 30 1993 February Basic Linear Book One
+16 34 1993 June Basic Linear Book One
+17 36 1993 June Basic Linear Book One
+18 39 1993 October Grouping Book One
+19 42 1994 February Pure Sequencing Book One
+20 46 1994 June Grouping Book One
+21 48 1994 June Grouping Book One
+22 51 1994 October Grouping Book One
+23 52 1994 October Grouping Book One
+24 54 1994 December Grouping Book One
+25 55 1994 December Basic Linear Book One
+26 58 1995 February Grouping Book One
+27 62 1995 June Basic Linear Book One
+28 65 1995 June Grouping Book One
+29 66 1995 September Grouping Book One
+30 70 1995 December Basic Linear Book One
+31 71 1995 December Grouping Book One
+32 78 1996 June Basic Linear Book One
+33 80 1996 June Grouping Book One
+34 81 1996 June Grouping Book One
+35 187 2004 June Pure Sequencing 10 Actual
+36 207 2005 December Pure Sequencing 10 Actual
+37 217 2006 September Pure Sequencing 10 Actual
+38 221 2006 December Pure Sequencing 10 Actual
+39 229 2007 September Pure Sequencing 10 New Actual
+40 231 2007 December Pure Sequencing 10 New Actual
+41 240 2008 October Pure Sequencing 10 New Actual
+42 263 2010 October Pure Sequencing 10 New Actual
+43 266 2010 December Basic Linear Vol V
+44 269 2010 December Basic Linear Vol V
+45 271 2011 June Basic Linear Vol V
+46 272 2011 June Basic Linear Vol V
+47 273 2011 June Basic Linear Vol V
+48 274 2011 October Basic Linear Vol V
+49 278 2011 December Basic Linear Vol V
+50 281 2011 December Basic Linear Vol V
+51 283 2012 June Basic Linear Vol V
+52 287 2012 October Basic Linear Vol V
+53 294 2013 June Basic Linear Vol V
+54 298 2013 October Basic Linear Vol V
+55 302 2013 December Pure Sequencing Vol V
+56 305 2013 December Basic Linear Vol V
+
+
+KEYED              month  year  published_as  test_num  game_num  secondary_type  tertiary_type  own  notes1  notes2  notes3  keyed_pr
 primary_type
 Basic Linear        24    24            24        24        24              24             24   24       8       0       0        24
 Grouping            18    18            18        18        18              18             18   18      15       3       0        18
-Pure Sequencing     10    10            10        10        10              10             10   10       1       0       0        10
+Pure Sequencing     14    14            14        14        14              14             14   14       2       0       0        14
 '''
