@@ -40,7 +40,7 @@ Michael Collins
 Richard Socher and Chris Manning
 
 ##  Steps of the Challenge
-To answer questions about logic games, five steps must be performed.  Here, I describe each step, indicate its degree of difficulty, and suggest how I intend to approach it:
+To answer questions about logic games, seven steps must be performed.  Here, I describe each step, indicate its degree of difficulty, and suggest how I intend to approach it:
 
 1. Classify the Puzzle: _medium_  
 I will use standard text classification tools from SpaCy and Sci-Kit Learn, perhaps aided by feature engineering, to determine what type of puzzle the prompt represents.
