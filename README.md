@@ -32,7 +32,7 @@ Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
     Proceedings of the 22nd International Conference on Computational Linguistics
     (Coling-2008), Manchester, 18-22 August, 2008.
 
-### Courses
+## Courses
 [Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)  
 Michael Collins
 
