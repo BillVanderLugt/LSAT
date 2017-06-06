@@ -298,9 +298,11 @@ Pure Sequencing                        23         6.460674          17.0        
 56 305 2013 December Basic Linear Vol V
 
 
-KEYED              month  year  published_as  test_num  game_num  secondary_type  tertiary_type  own  notes1  notes2  notes3  keyed_pr
+KEYED
+                 month  year  published_as  test_num  game_num  \
 primary_type
-Basic Linear        24    24            24        24        24              24             24   24       8       0       0        24
-Grouping            18    18            18        18        18              18             18   18      15       3       0        18
-Pure Sequencing     14    14            14        14        14              14             14   14       2       0       0        14
+Basic Linear        24    24            24        24        24
+Grouping            18    18            18        18        18
+Pure Sequencing     16    16            16        16        16
+
 '''
