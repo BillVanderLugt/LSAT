@@ -1,104 +1,131 @@
 import pandas as pd
+import pickle
 
-def load(file):
-    '''
-    loads game categorizations and returns a array
-    ready for conversion into a pandas DataFrame
-    '''
+class LSAT(object):
 
-    array = []
-    with open(file) as f:
-        line = f.readline().strip()
-        while line:
-            month, year, published_as = line.strip().split(' ', 2)
-            flag = published_as.find('PrepTest')
-            if flag > 0:
-                _, test_num = published_as.rsplit(' ', 1)
-                test_num = int(test_num[:-1])
-            else:
-                test_num = 0
-            for game_num in range(1, 5): # index games from 1 to 4
-                _, _, game_attr = f.readline().strip().split(' ', 2)
-                game_attr = game_attr.split(', ') # yields a list of varying length
-                game_type = game_attr[0].split(': ')
-                if len(game_type) == 1:
-                    game_type += [''] + [''] # fill missing entries
-                elif len(game_type) == 2:
-                    game_type += [''] # fill missing entries
-                game_id = [month, year, published_as[1:-1], test_num, game_num]
-                        # drop parentheses around publication info
-                own_col = ['missing'] # for ownership fill with default value
-                all_cols = game_id + game_type + own_col + game_attr[1:]
-                array.append(all_cols)
+    def __init__(self):
+        self.prompts = []
+        self.rules = []
+        self.prompts_pos = []
+        self.rules_pos = []
+
+    def load(self, file):
+        '''
+        loads game categorizations and returns a array,
+        ready for conversion into a pandas DataFrame
+        '''
+
+        array = []
+        with open(file) as f:
             line = f.readline().strip()
-    return array
+            while line:
+                month, year, published_as = line.strip().split(' ', 2)
+                flag = published_as.find('PrepTest')
+                if flag > 0:
+                    _, test_num = published_as.rsplit(' ', 1)
+                    test_num = int(test_num[:-1])
+                else:
+                    test_num = 0
+                for game_num in range(1, 5): # index games from 1 to 4
+                    _, _, game_attr = f.readline().strip().split(' ', 2)
+                    game_attr = game_attr.split(', ') # yields a list of varying length
+                    game_type = game_attr[0].split(': ')
+                    if len(game_type) == 1:
+                        game_type += [''] + [''] # fill missing entries
+                    elif len(game_type) == 2:
+                        game_type += [''] # fill missing entries
+                    game_id = [month, year, published_as[1:-1], test_num, game_num]
+                            # drop parentheses around publication info
+                    own_col = ['missing'] # for ownership fill with default value
+                    all_cols = game_id + game_type + own_col + game_attr[1:]
+                    array.append(all_cols)
+                line = f.readline().strip()
+        return array
 
-def read_prompts():
-    names = ['Book_One_prompts.txt', 'Vol_V_prompts.txt', 'New_Actual.txt', '10_Actual.txt']
-    for name in names:
-        type = 'error'
-        print (name)
-        with open('../data/' + name) as f:
-            line = f.readline().strip()
-            while line != '--END--':
-                #print (line)
-                if line[:4]=="####":
-                    contents = line.split(' ')
-                    _, *type, _ = contents
-                    line = f.readline().strip()
-                if line[:3]=="###":
-                    contents = line.split(' ')
-                    # print ('lenth of line 2', len(contents))
-                    _, month, year, _, game_num, _ = contents
-                    #line = f.readline().strip()
-                    # print
-                    #print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
-                    line = f.readline().strip()
-                    prompt = []
-                    while line[:2]!='##':
-                        prompt.append(line)
+    def populate_lists(self):
+        '''
+        generate list versions of sentences from prompts and rules
+        '''
+        for game in Lsat.keyed.iterrows():
+            print ('############## processing game #: {} #################'.format(game[0]))
+            output = []
+            for sent in prompts[game[0]]:
+                output.append([w for w in sent.split(' ') if w[0].isalnum()])
+            prompts_as_list[game[0]] = output
+
+            output = []
+            for sent in rules[game[0]]:
+                output.append([w for w in sent.split(' ') if w[0].isalnum()])
+            rules_as_list[game[0]] = output
+        return output
+
+    def read_prompts(self):
+        names = ['Book_One_prompts.txt', 'Vol_V_prompts.txt', \
+                'New_Actual.txt', '10_Actual.txt', 'Book_Two.txt']
+        for name in names:
+            type = 'error'
+            # print (name)
+            with open('../data/' + name) as f:
+                line = f.readline().strip()
+                while line != '--END--':
+                    #print (line)
+                    if line[:4]=="####":
+                        contents = line.split(' ')
+                        _, *type, _ = contents
                         line = f.readline().strip()
-                        #print ("prompt line", line)
-                    #line = f.readline() # eat spacer
-                    rule_list = []
-                    line = f.readline().strip()
-                    while line[:2]!='##' and line!='--END--':
-                        rule_list.append(line)
+                    if line[:3]=="###":
+                        contents = line.split(' ')
+                        # print ('lenth of line 2', len(contents))
+                        _, month, year, _, game_num, _ = contents
+                        #line = f.readline().strip()
+                        # print
+                        # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
                         line = f.readline().strip()
-                        #print ("rule line", line)
-                    # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
-                    # print ("PROMPT:")
-                    # print (prompt)
-                    # print ("rules:")
-                    # print (rule_list)
-                    # print (month, year, int(game_num))
-                    subset = df[df.year==year]
-                    subset = subset[subset.month==month]
-                    subset = subset[subset.game_num==int(game_num)]          #(df.game_num==int(game_num))]
-                    #print (month, year, int(game_num))
-                    try:
-                        idx = subset.index.tolist()[0]
-                        prompts[idx] = prompt
-                        rules[idx] = rule_list
-                    except:
-                        print ("error: missing", month, year, int(game_num))
+                        prompt = []
+                        while line[:2]!='##':
+                            prompt.append(line)
+                            line = f.readline().strip()
+                            #print ("prompt line", line)
+                        #line = f.readline() # eat spacer
+                        rule_list = []
+                        line = f.readline().strip()
+                        while line[:2]!='##' and line!='--END--':
+                            rule_list.append(line)
+                            line = f.readline().strip()
+                            #print ("rule line", line)
+                        # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
+                        # print ("PROMPT:")
+                        # print (prompt)
+                        # print ("rules:")
+                        # print (rule_list)
+                        # print (month, year, int(game_num))
+                        subset = df[df.year==year]
+                        subset = subset[subset.month==month]
+                        subset = subset[subset.game_num==int(game_num)]          #(df.game_num==int(game_num))]
+                        #print (month, year, int(game_num))
+                        try:
+                            idx = subset.index.tolist()[0]
+                            prompts[idx] = prompt
+                            rules[idx] = rule_list
+                        except:
+                            print ("error: missing", month, year, int(game_num))
 
-def get_owned(df):
-    df.loc[df.test_num.isin(range(1, 21)), 'own'] = 'Book One'
-    df.loc[df.test_num.isin(range(21, 41)), 'own'] = 'Book Two' # missing PrepTest 41
-    df.loc[df.test_num.isin(range(42, 52)), 'own'] = '10 Actual'
-    df.loc[df.test_num.isin(range(52, 62)), 'own'] = '10 New Actual'
-    df.loc[df.test_num.isin(range(62, 72)), 'own'] = 'Vol V'
-    df.loc[(df.month == 'June') & (df.year == '2007'), 'own'] = 'Free'
-    return df[df.own != 'missing']
+    def get_owned(self, df):
+        df.loc[df.test_num.isin(range(1, 21)), 'own'] = 'Book One'
+        df.loc[df.test_num.isin(range(21, 41)), 'own'] = 'Book Two' # missing PrepTest 41
+        df.loc[df.test_num.isin(range(42, 52)), 'own'] = '10 Actual'
+        df.loc[df.test_num.isin(range(52, 62)), 'own'] = '10 New Actual'
+        df.loc[df.test_num.isin(range(62, 72)), 'own'] = 'Vol V'
+        df.loc[(df.month == 'June') & (df.year == '2007'), 'own'] = 'Free'
+        return df[df.own != 'missing']
 
-def get_counts(input, col_names):
-    type_counts = input.groupby('primary_type').count().secondary_type.to_frame(col_names[0])
-    type_counts[col_names[1]] = type_counts[col_names[0]] * 100/ len(input)
-    return type_counts
+    def get_counts(self, input, col_names):
+        type_counts = input.groupby('primary_type').count().secondary_type.to_frame(col_names[0])
+        type_counts[col_names[1]] = type_counts[col_names[0]] * 100/ len(input)
+        return type_counts
 
 def save_pickle(file, name):
-    with open("classification_data/" + name + ".pkl", 'w') as f:
+    with open("../data/" + name + ".pkl", 'wb') as f:
         pickle.dump(file, f)
     print ("done pickling ", name)
 
@@ -115,20 +142,21 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', 500)
     pd.set_option('display.width', 300)
 
-    file = 'Games_Classifications.txt'
+    Lsat = LSAT()
+    file = '../data/Games_Classifications.txt'
     cols = ['month', 'year', 'published_as', 'test_num', 'game_num', 'primary_type', \
         'secondary_type', 'tertiary_type', 'own', 'notes1', 'notes2', 'notes3']
-    array = load(file)
+    array = Lsat.load(file)
 
     df = pd.DataFrame(array, columns=cols)
     df.index = df.index + 1 # since game_num starts at 1, test_num should too
     #df['indices'] = df.index
     # for convenience create various subsets of the df:
-    df_owned = get_owned(df) # games I own ~ training data
+    df_owned = Lsat.get_owned(df) # games I own ~ training data
     bible_games = df[df.values == 'Bible'] # games dissected in PowerScore's Bible
     tests_inventory = df.groupby('own').count() # inventory of where owned games reside
-    total_type_counts = get_counts(df, ['total_counts', 'percent_overall'])
-    owned_type_counts = get_counts(df_owned, ['owned_counts', 'percent_of_owned'])
+    total_type_counts = Lsat.get_counts(df, ['total_counts', 'percent_overall'])
+    owned_type_counts = Lsat.get_counts(df_owned, ['owned_counts', 'percent_of_owned'])
     combined_type_counts = pd.concat([total_type_counts,owned_type_counts], axis=1)
     combined_type_counts['held_out'] = combined_type_counts['total_counts']- \
                                        combined_type_counts['owned_counts']
@@ -137,13 +165,19 @@ if __name__ == '__main__':
 
     all_seq_games = df[df.primary_type=='Pure Sequencing']
     seq_games_owned = all_seq_games[all_seq_games.own != 'missing']
-    print ("Total sequencing games:", len(all_seq_games))
-    print ("Owned sequencing games:", len(seq_games_owned))
 
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
+    prompts_cleand = [[] for i in range(df.shape[0])]
+    rules_cleaned = [[] for i in range(df.shape[0])]
+    prompts_as_list = [[] for i in range(df.shape[0])]
+    rules_as_list = [[] for i in range(df.shape[0])]
+    prompts_pos_as_list = [[] for i in range(df.shape[0])]
+    rules_pos_as_list = [[] for i in range(df.shape[0])]
+    prompts_pos_plus_punct = [[] for i in range(df.shape[0])]
+    rules_pos_plus_punct = [[] for i in range(df.shape[0])]
     #print ('init as', prompts)
-    read_prompts()
+    Lsat.read_prompts()
     df.game_num[9]=2 # manual correction of wierd error
     df.game_num[35]=1 # manual correction of wierd error
     df.primary_type[9]='Basic Linear' # manual correction of wierd error
@@ -155,11 +189,29 @@ if __name__ == '__main__':
             counter += 1
             print (counter, df.index[i], df.year[i], df.month[i], df.primary_type[i], df.own[i])
             df.keyed_pr[i] = True
-    keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
+    Lsat.keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
+    Lsat.keyed_seq = Lsat.keyed[Lsat.keyed.primary_type=='Pure Sequencing']
 
+    #print (df.groupby('primary_type').count())
     print ("Total sequencing games:", len(all_seq_games))
     print ("Owned sequencing games:", len(seq_games_owned))
-    print (df[(df.own=='10 Actual') & (df.primary_type=='Pure Sequencing')])
+    #print (keyed_seq)
+    print ("Keyed sequencing games:", len(Lsat.keyed_seq))
+
+    Lsat.populate_lists()
+    Lsat.df = df
+    Lsat.prompts = prompts
+    Lsat.rules = rules
+    Lsat.prompts_cleaned = prompts_cleaned
+    Lsat.rules_cleaned = rules_cleaned
+    Lsat.prompts_as_list = prompts_as_list
+    Lsat.rules_as_list = rules_as_list
+    Lsat.prompts_pos_as_list = prompts_pos_as_list
+    Lsat.rules_pos_as_list = rules_pos_as_list
+    Lsat.prompts_pos_plus_punct = prompts_pos_plus_punct
+    Lsat.rules_pos_plus_punct = rules_pos_plus_punct
+    save_pickle(Lsat, 'LSAT_data')
+
     '''
                                  total_counts  percent_overall  owned_counts  percent_of_owned  held_out  percent_held
 Advanced Linear                        85        23.876404          71.0         25.000000      14.0     16.470588
