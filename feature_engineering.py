@@ -101,64 +101,35 @@ pipeline = Pipeline([
 
 parameters = {
     'vect__stop_words': ('english', None),
-    'vect__max_df': (0.3, 0.5, 0.7, 1.0),
+    #'vect__max_df': (0.3, 0.5, 0.7, 1.0),
     'vect__min_df': (0.0, 0.05, .1),
     #'vect__max_features': (None, 50, 1000),
-    'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
+    #'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
     'tfidf__use_idf': (True, False),
-    'tfidf__norm': ('l1', 'l2'),
-    'clf__alpha': (0.5, 0.1, 0.01, 0.001),
+    #'tfidf__norm': ('l1', 'l2'),
+    'clf__alpha': (1.0, 0.5, 0.1, 0.01),
     #'clf__penalty': ('l2'),
-    'clf__n_iter': (5, 10),
-    #'clf__loss': ('huber', 'log', 'modified_huber', 'squared_hinge')
+    'clf__n_iter': (5, 10, 50, 100, 500),
+    'clf__loss': ('huber', 'log')
 }
-'''
-pipeline: ['vect', 'tfidf', 'clf']
-parameters:
-{'clf__alpha': (0.01, 0.001, 0.0001, 1e-05),
- 'clf__n_iter': (5, 10),
- 'tfidf__norm': ('l1', 'l2'),
- 'tfidf__use_idf': (True, False),
- 'vect__max_df': (0.3, 0.5, 0.7, 0.9),
- 'vect__min_df': (0.0, 0.05, 0.1),
- 'vect__ngram_range': ((1, 1), (1, 2)),
- 'vect__stop_words': ('english', None)}
-Fitting 3 folds for each of 1536 candidates, totalling 4608 fits
-[Parallel(n_jobs=-1)]: Done 348 tasks      | elapsed:    2.2s
-[Parallel(n_jobs=-1)]: Done 1848 tasks      | elapsed:   11.1s
-[Parallel(n_jobs=-1)]: Done 4348 tasks      | elapsed:   25.8s
-[Parallel(n_jobs=-1)]: Done 4608 out of 4608 | elapsed:   27.3s finished
-done in 27.887s
-
-Best score: 0.708
-Best parameters set:
-	clf__alpha: 0.01
-	clf__n_iter: 5
-	tfidf__norm: 'l2'
-	tfidf__use_idf: True
-	vect__max_df: 0.5
-	vect__min_df: 0.0
-	vect__ngram_range: (1, 2)
-	vect__stop_words: 'english'
-'''
 
 # parameters = {
-#     #'vect__max_df': (0.1, 0.3),
-#
+#     'vect__max_df': (0.5, 1.0),
+#     'vect__min_df': (0.0, 0.1),
 #     #'vect__max_features': (None, 50, 1000),
 #     #'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
-#     #'tfidf__use_idf': (True, False),
+#     'tfidf__use_idf': (True, False),
 #     #'tfidf__norm': ('l1', 'l2'),
-#     'clf__C': (0.001, 0.1, 1.0, 2.0),
-#     'clf__kernel': ('linear', 'poly', 'rbf')
+#     'clf__C': (0.1, 1.0, 2.0, 4.0),
+#     'clf__kernel': ('linear', 'poly', 'rbf'),
 #     #'clf__penalty': ('l2'),
-#     #'clf__n_iter': (30, 50),
+#     #'clf__n_iter': (5, 10, 50)
 #     #'clf__loss': ('huber', 'log', 'modified_huber', 'squared_hinge')
 # }
 #(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=False, tol=0.001, cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)[source]
 
 def grid(X, y):
-    grid_search = GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=1)
+    grid_search = GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=1, cv=8)
 
     print("Performing grid search...")
     print("pipeline:", [name for name, _ in pipeline.steps])
@@ -256,4 +227,4 @@ if __name__ == '__main__':
 
 
     print ("starting grid search using prompts...")
-    grid(X_rules, y)
+    grid(X_prompts, y)
