@@ -4,6 +4,7 @@ from textpipeliner.pipes import *
 import pickle
 from load_categories_df import LSAT
 import re
+from string import punctuation
 
 # class Game(object):
 #
@@ -23,6 +24,10 @@ def load_pickle(name):
     print ("done unpickling ", name)
     return file_unpickled
 
+def strip_sent(sent):
+    pattern = re.compile('\w+')
+    return pattern.findall(sent)
+
 def clean_sent(sent):
     return " ".join([clean_word(w) for w in sent.split(' ')])
 
@@ -33,13 +38,15 @@ def clean_word(old):
     word = old
     if word == '--':
         word = ''
-    word = re.sub (r'[()]', '', word)
+    word = re.sub(r'[().,:]', '', word) # strip punctuation
+    word = re.sub(r"'s", '', word) # strip possessives
     if word != old:
         print ("@@@@@@ swapping in {} for {} @@@@@".format(word, old))
     return word
 
 def sent_pos(sent):
     cleaned = clean_sent(sent)
+    cleaned_as_list = cleaned.split(' ')
     doc = nlp(cleaned)
     out_plus_punct = []
     out = []
@@ -51,16 +58,13 @@ def sent_pos(sent):
                 out.append(word.tag_)
     # print ("Pos without punct:", out)
     # print ("Pos with punct:", out_plus_punct)
-    cleaned_as_list = cleaned.split(' ')
-    as_list = []
     if len(cleaned_as_list) != len(out):
         print ("$$$$$$$$$$$$$$$$$$$$$ ERROR $$$$$$$$$$$$$$$$$$$$$$$")
         print ("Len of original: {}   Len of parsed sans punct: {}".\
                         format(len(cleaned_as_list), len(out)))
         for i, w in enumerate(cleaned_as_list):
             print (w, out[i])
-            as_list.append[w]
-    return as_list, out, out_plus_punct
+    return cleaned_as_list, out, out_plus_punct
 
 def _tag_sent(sent):
     # for word in sent.split(' '):
@@ -92,9 +96,9 @@ def tag(df, source, destination_list, pos_dest, dest_plus_punct):
 def _extract_paren(sent):
     regex = re.compile(r'\([^)]*\) ?')
     paren = regex.findall(sent)
-    print (paren)
+    #print (paren)
     new_sent = regex.sub('', sent)
-    print (new_sent)
+    #print (new_sent)
     return new_sent, paren
 
 def extract_parentheticals(df, source, destination_list):
@@ -121,10 +125,12 @@ def scan_for_term(df, source, term):
 def check_tagging(row_num=3):
     print ()
     print ('Checking pos tagging...')
+    print ()
     for i, prompt in enumerate(Lsat.prompts[row_num]):
         print (prompt)
         print ('prompts_as_list:', Lsat.prompts_as_list[row_num][i])
         print ('prompts_pos_as_list:', Lsat.prompts_pos_as_list[row_num][i])
+        print ()
 
     print ('parentheticals:', Lsat.parentheticals[row_num])
 
@@ -132,8 +138,7 @@ def check_tagging(row_num=3):
         print (rule)
         print (Lsat.rules_as_list[row_num][i])
         print (Lsat.rules_pos_as_list[row_num][i])
-
-
+        print ()
 
 if __name__ == '__main__':
     Lsat = load_pickle('LSAT_data')
@@ -151,7 +156,7 @@ if __name__ == '__main__':
     tag(Lsat.keyed_seq, Lsat.rules, Lsat.rules_as_list, Lsat.rules_pos_as_list, Lsat.rules_pos_plus_punct)
 
     print ('post-check')
-    check_tagging(row_num=239)
+    check_tagging(row_num=228)
     #
     # scan_for_term(Lsat.keyed_seq, Lsat.rules, 'than')
 
