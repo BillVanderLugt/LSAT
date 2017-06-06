@@ -47,14 +47,16 @@ class LSAT(object):
         generate list versions of sentences from prompts and rules
         '''
         for game in Lsat.keyed.iterrows():
-            print ('############## processing game #: {} #################'.format(game[0]))
+            # print ('############## processing game #: {} #################'.format(game[0]))
             output = []
             for sent in prompts[game[0]]:
+                # print (sent)
                 output.append([w for w in sent.split(' ') if w[0].isalnum()])
             prompts_as_list[game[0]] = output
 
             output = []
             for sent in rules[game[0]]:
+                # print (sent)
                 output.append([w for w in sent.split(' ') if w[0].isalnum()])
             rules_as_list[game[0]] = output
         return output
@@ -168,7 +170,7 @@ if __name__ == '__main__':
 
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
-    prompts_cleand = [[] for i in range(df.shape[0])]
+    prompts_cleaned = [[] for i in range(df.shape[0])]
     rules_cleaned = [[] for i in range(df.shape[0])]
     prompts_as_list = [[] for i in range(df.shape[0])]
     rules_as_list = [[] for i in range(df.shape[0])]
