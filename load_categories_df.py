@@ -188,7 +188,7 @@ if __name__ == '__main__':
     for i, p in enumerate(prompts):
         if len(p)>0:
             counter += 1
-            print (counter, df.index[i], df.year[i], df.month[i], df.primary_type[i], df.own[i])
+            # print (counter, df.index[i], df.year[i], df.month[i], df.primary_type[i], df.own[i])
             df.keyed_pr[i] = True
     Lsat.keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
     Lsat.keyed_seq = Lsat.keyed[Lsat.keyed.primary_type=='Pure Sequencing']

@@ -38,10 +38,10 @@ def clean_word(old):
     word = old
     if word == '--':
         word = ''
-    word = re.sub(r'[().,:]', '', word) # strip punctuation
+    word = re.sub(r'[().,:]', '', word) # strip certain punctuation
     word = re.sub(r"'s", '', word) # strip possessives
-    if word != old:
-        print ("@@@@@@ swapping in {} for {} @@@@@".format(word, old))
+    # if word != old:
+    #     print ("@@@@@@ swapping in {} for {} @@@@@".format(word, old))
     return word
 
 def sent_pos(sent):
@@ -78,7 +78,7 @@ def _tag_sent(sent):
 
 def tag(df, source, destination_list, pos_dest, dest_plus_punct):
     for game in df.iterrows():
-        print ('############## tagging game #: {} #################'.format(game[0]))
+        #print ('############## tagging game #: {} #################'.format(game[0]))
         as_list = []
         pos_list = []
         pos_plus_punct = []
@@ -103,7 +103,7 @@ def _extract_paren(sent):
 
 def extract_parentheticals(df, source, destination_list):
     for game in df.iterrows():
-        print ('############## extracting parentheticals from game #: {} #################'.format(game[0]))
+        # print ('############## extracting parentheticals from game #: {} #################'.format(game[0]))
         stripped_sents = []
         paren_list = []
         for sent in source[game[0]]:
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     # print (first)
     # print (second)
 
-    new, paren = _extract_paren('This is a test (dummy) sentence with a (second dummmy) too.')
+    #new, paren = _extract_paren('This is a test (dummy) sentence with a (second dummmy) too.')
     extract_parentheticals(Lsat.keyed_seq, Lsat.prompts, Lsat.prompts_as_list)
 
     tag(Lsat.keyed_seq, Lsat.prompts, Lsat.prompts_as_list, Lsat.prompts_pos_as_list, Lsat.prompts_pos_plus_punct)
