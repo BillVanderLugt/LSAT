@@ -22,16 +22,19 @@ def load_pickle(name):
     return file_unpickled
 
 def clean_sent(sent):
-    return " ".join([clean_word(w) for w in sent.split(' ') if w[0].isalnum()])
+    return " ".join([clean_word(w) for w in sent.split(' ')])
 
-def clean_word(word):
+def clean_word(old):
     '''
     eliminates parentheses
     '''
-    new = re.sub(r'[()]', '', word)
-    if new != word:
-        print ("@@@@@@ swapping in {} for {} @@@@@".format(new, word))
-    return new
+    word = old
+    if word == '--':
+        word = ''
+    word = re.sub(r'[()]', '', word)
+    if word != old:
+        print ("@@@@@@ swapping in {} for {} @@@@@".format(word, old))
+    return word
 
 def sent_pos(sent):
     cleaned = clean_sent(sent)
@@ -47,10 +50,10 @@ def sent_pos(sent):
     # print ("Pos without punct:", out)
     # print ("Pos with punct:", out_plus_punct)
     cleaned_as_list = cleaned.split(' ')
-    print ("Len of original: {}   Len of parsed sans punct: {}".\
-                    format(len(cleaned_as_list), len(out)))
     if len(cleaned_as_list) != len(out):
         print ("$$$$$$$$$$$$$$$$$$$$$ ERROR $$$$$$$$$$$$$$$$$$$$$$$")
+        print ("Len of original: {}   Len of parsed sans punct: {}".\
+                        format(len(cleaned_as_list), len(out)))
         for i, w in enumerate(cleaned_as_list):
             print (w, out[i])
     return out, out_plus_punct

@@ -51,13 +51,13 @@ class LSAT(object):
             output = []
             for sent in prompts[game[0]]:
                 # print (sent)
-                output.append([w for w in sent.split(' ') if w[0].isalnum()])
+                output.append([w for w in sent.split(' ')])
             prompts_as_list[game[0]] = output
 
             output = []
             for sent in rules[game[0]]:
                 # print (sent)
-                output.append([w for w in sent.split(' ') if w[0].isalnum()])
+                output.append([w for w in sent.split(' ')])
             rules_as_list[game[0]] = output
         return output
 
