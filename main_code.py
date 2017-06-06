@@ -1,4 +1,6 @@
 import spacy
+from textpipeliner import PipelineEngine
+from textpipeliner.pipes import *
 import pickle
 from load_categories_df import LSAT
 import re
@@ -31,7 +33,7 @@ def clean_word(old):
     word = old
     if word == '--':
         word = ''
-    word = re.sub(r'[()]', '', word)
+    word = re.sub (r'[()]', '', word)
     if word != old:
         print ("@@@@@@ swapping in {} for {} @@@@@".format(word, old))
     return word
@@ -58,7 +60,7 @@ def sent_pos(sent):
             print (w, out[i])
     return out, out_plus_punct
 
-def _print_parse_sent(sent):
+def _parse_sent(sent):
     # for word in sent.split(' '):
     #     print (word.ljust(12), end='')
     # print (end='\n')
@@ -68,15 +70,77 @@ def _print_parse_sent(sent):
     # print (end='\n\n')
     return parts_of_speech, pos_plus_punct
 
-def print_parse(df, source, destination_list):
+def parse(df, source, destination_list):
     for game in df.iterrows():
-        print ('############## processing game #: {} #################'.format(game[0]))
-        output = []
+        print ('############## parsing game #: {} #################'.format(game[0]))
+        pos_list = []
+        pos_plus_punct = []
         for sent in source[game[0]]:
-            pos, pos_plus_punct = _print_parse_sent(sent)
-            output.append(pos)
+            pos, plus_punct = _parse_sent(sent)
+            pos_list.append(pos)
+            pos_plus_punct.appen(plus_punct)
         destination_list[game[0]] = output
     return output
+
+def _extract_paren(sent):
+    regex = re.compile(r'\([^)]*\) ?')
+    paren = regex.findall(sent)
+    print (paren)
+    new_sent = regex.sub('', sent)
+    print (new_sent)
+    return new_sent, paren
+
+def parse_parentheticals(df, source, destination_list):
+    for game in df.iterrows():
+        print ('############## extracting parentheticals from game #: {} #################'.format(game[0]))
+        stripped_sents = []
+        paren_list = []
+        for sent in source[game[0]]:
+            stripped_sent, paren = _extract_paren(sent)
+            stripped_sents.append(stripped_sent)
+            extracted_words = [x[1:-1].split(' ') for x in paren]
+            paren_list.append(extracted_words)
+        destination_list[game[0]] = stripped_sents
+        Lsat.parentheticals[game[0]] =  extracted_words # remove parens & separate
+    return stripped_sents, paren_list
+
+pipes_structure = [SequencePipe([FindTokensPipe("VERB/nsubj/NNP"),
+                                 NamedEntityFilterPipe(),
+                                 NamedEntityExtractorPipe()]),
+                       AggregatePipe([FindTokensPipe("VERB"),
+                                      FindTokensPipe("VERB/xcomp/VERB/aux/*"),
+                                      FindTokensPipe("VERB/xcomp/VERB")]),
+                       AnyPipe([FindTokensPipe("VERB/[acomp,amod]/ADJ"),
+                                AggregatePipe([FindTokensPipe("VERB/[dobj,attr]/NOUN/det/DET"),
+                                               FindTokensPipe("VERB/[dobj,attr]/NOUN/[acomp,amod]/ADJ")])])
+                                                                ]
+
+pipes_structure_comp = [SequencePipe([FindTokensPipe("VERB/conj/VERB/nsubj/NNP"),
+                                 NamedEntityFilterPipe(),
+                                 NamedEntityExtractorPipe()]),
+                   AggregatePipe([FindTokensPipe("VERB/conj/VERB"),
+                                  FindTokensPipe("VERB/conj/VERB/xcomp/VERB/aux/*"),
+                                  FindTokensPipe("VERB/conj/VERB/xcomp/VERB")]),
+                   AnyPipe([FindTokensPipe("VERB/conj/VERB/[acomp,amod]/ADJ"),
+                            AggregatePipe([FindTokensPipe("VERB/conj/VERB/[dobj,attr]/NOUN/det/DET"),
+                                           FindTokensPipe("VERB/conj/VERB/[dobj,attr]/NOUN/[acomp,amod]/ADJ")])])
+                                                                ]
+def split_compounds(sent):
+    '''
+    trying out mini-library: https://github.com/krzysiekfonal/textpipeliner
+    '''
+
+    sent = nlp(u"The Empire of Japan aimed to dominate Asia and the " \
+               "Pacific and was already at war with the Republic of China " \
+               "in 1937, but the world war is generally said to have begun on " \
+               "1 September 1939 with the invasion of Poland by Germany and " \
+               "subsequent declarations of war on Germany by France and the United Kingdom. ")
+
+    engine = PipelineEngine(pipes_structure, sent, [0,1,2])
+    engine2 = PipelineEngine(pipes_structure_comp, sent, [0,1,2])
+    first_half = engine.process()
+    second_half = engine2.process()
+    return first_half, second_half
 
 def scan_for_term(df, source, term):
     for game in df.iterrows():
@@ -90,7 +154,13 @@ if __name__ == '__main__':
     print ('loading spacy...')
     nlp = spacy.load('en')
 
-    print_parse(Lsat.keyed_seq, Lsat.rules, Lsat.rules_pos_as_list)
-    print_parse(Lsat.keyed_seq, Lsat.prompts, Lsat.prompts_pos_as_list)
+    #first, second = split_compounds('dummy sentences suck')
+    # print (first)
+    # print (second)
 
-    scan_for_term(Lsat.keyed_seq, Lsat.rules, 'than')
+    new, paren = _extract_paren('This is a test (dummy) sentence with a (second dummmy) too.')
+    parse_parentheticals(Lsat.keyed_seq, Lsat.prompts, Lsat.parentheticals)
+    parse(Lsat.keyed_seq, Lsat.rules, Lsat.rules_pos_as_list)
+    parse(Lsat.keyed_seq, Lsat.prompts, Lsat.prompts_pos_as_list)
+    #
+    # scan_for_term(Lsat.keyed_seq, Lsat.rules, 'than')

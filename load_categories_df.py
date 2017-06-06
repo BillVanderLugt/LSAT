@@ -170,10 +170,9 @@ if __name__ == '__main__':
 
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
-    prompts_cleaned = [[] for i in range(df.shape[0])]
-    rules_cleaned = [[] for i in range(df.shape[0])]
-    prompts_as_list = [[] for i in range(df.shape[0])]
-    rules_as_list = [[] for i in range(df.shape[0])]
+    parentheticals = [[] for i in range(df.shape[0])]
+    prompts_as_list = [[] for i in range(df.shape[0])] # stripped of parens
+    rules_as_list = [[] for i in range(df.shape[0])] # stripped of parens
     prompts_pos_as_list = [[] for i in range(df.shape[0])]
     rules_pos_as_list = [[] for i in range(df.shape[0])]
     prompts_pos_plus_punct = [[] for i in range(df.shape[0])]
@@ -204,10 +203,10 @@ if __name__ == '__main__':
     Lsat.df = df
     Lsat.prompts = prompts
     Lsat.rules = rules
-    Lsat.prompts_cleaned = prompts_cleaned
-    Lsat.rules_cleaned = rules_cleaned
     Lsat.prompts_as_list = prompts_as_list
     Lsat.rules_as_list = rules_as_list
+    Lsat.parentheticals = parentheticals # ((modified word1, ['contents1', 'contents2']),\
+                                         #  (modified word2, ['contents1']))
     Lsat.prompts_pos_as_list = prompts_pos_as_list
     Lsat.rules_pos_as_list = rules_pos_as_list
     Lsat.prompts_pos_plus_punct = prompts_pos_plus_punct
