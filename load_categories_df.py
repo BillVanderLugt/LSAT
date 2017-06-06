@@ -171,6 +171,12 @@ if __name__ == '__main__':
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
     parentheticals = [[] for i in range(df.shape[0])]
+    prompts_as_spdoc = [[] for i in range(df.shape[0])] # each sent sep in list
+    rules_as_spdoc = [[] for i in range(df.shape[0])] # each sent sep in list
+    prompts_1_spdoc = [[] for i in range(df.shape[0])] # all prompts as 1 SpaCy doc
+    rules_1_spdoc = [[] for i in range(df.shape[0])] # all rules as 1 SpaCy doc
+    prompts_tfidf = [[] for i in range(df.shape[0])]
+    rules_tfidf = [[] for i in range(df.shape[0])]
     prompts_as_list = [[] for i in range(df.shape[0])] # stripped of parens
     rules_as_list = [[] for i in range(df.shape[0])] # stripped of parens
     prompts_pos_as_list = [[] for i in range(df.shape[0])]
@@ -205,6 +211,12 @@ if __name__ == '__main__':
     Lsat.rules = rules
     Lsat.prompts_as_list = prompts_as_list
     Lsat.rules_as_list = rules_as_list
+    Lsat.prompts_as_spdoc = prompts_as_spdoc
+    Lsat.rules_as_spdoc = rules_as_spdoc
+    Lsat.prompts_1_spdoc = prompts_1_spdoc
+    Lsat.rules_1_spdoc = rules_1_spdoc
+    Lsat.prompts_tfidf = prompts_tfidf
+    Lsat.rules_tfidf = rules_tfidf
     Lsat.parentheticals = parentheticals # ((modified word1, ['contents1', 'contents2']),\
                                          #  (modified word2, ['contents1']))
     Lsat.prompts_pos_as_list = prompts_pos_as_list
