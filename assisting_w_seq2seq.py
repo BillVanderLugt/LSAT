@@ -124,8 +124,6 @@ def create_lists():
             print (new)
             labdf.set_value(idx, 'lowercase', new)
     mixed = (keepers & mixed)
-    #print ('Found {} words in both lists:'.format(len(mixed)))
-    #print (mixed)
     return keepers, stopwords, mixed
 
 def get_Y_tokens():
@@ -192,7 +190,7 @@ def fill_seq2seq(src_col, vocab):
         output_str += ' '.join(line) + '\n'
     return output_str, idx_dict
 
-def gen_train_dev_test_idx(dev_samps=15, test_samps=5):
+def gen_train_dev_test_idx(dev_samps=10, test_samps=5):
     '''
     Create indices for training, development, and test sets.
     Pull out 5 questions from game #145 and collect as test set.
@@ -206,8 +204,8 @@ def gen_train_dev_test_idx(dev_samps=15, test_samps=5):
     idx = list(range(0,30)) + list(range(35,labdf.shape[0]))
     np.random.shuffle(idx)
     test_idx = list(range(30,35)) # cherry pick questions for game 145
-    dev_idx = idx[test_samps:(test_samps+dev_samps)]
-    train_idx = idx[(test_samps+dev_samps):]
+    dev_idx = idx[:dev_samps]
+    train_idx = idx[dev_samps:]
     print ('len of train: ', len(train_idx),\
             'len of dev: ', len(dev_idx),\
             'len of test: ', len(test_idx))
@@ -379,6 +377,12 @@ if __name__ == '__main__':
     ###############################################################################################
     ### PRINT RESULTS AFTER USING BASH SCRIPTS TO TRAIN SEQ2SEQ MODEL AND PREDICT TARGET LABELS ###
     ###############################################################################################
+    predict_split = load('/Users/bvl/CAPSTONE_data/Capstone_seq2seq_data/pred/dev_predictions.txt')
+    correct_split = load('/Users/bvl/CAPSTONE_data/Capstone_seq2seq_data/dev/targets.txt')
+    print ('DEV RESULTS:')
+    print_results(predict_split, correct_split)
+
     predict_split = load('/Users/bvl/CAPSTONE_data/Capstone_seq2seq_data/pred/test_predictions.txt')
     correct_split = load('/Users/bvl/CAPSTONE_data/Capstone_seq2seq_data/test/targets.txt')
+    print ('TEST RESULTS:')
     print_results(predict_split, correct_split)

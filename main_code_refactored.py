@@ -13,14 +13,6 @@ import logging
 import pandas as pd
 import numpy as np
 
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, TfidfTransformer
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import SGDClassifier
-from sklearn.svm import LinearSVC, SVC
-from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import Pipeline
-from sklearn.naive_bayes import MultinomialNB
-
 from feature_engineering import save_pickle, load_pickle, \
                             save_spacydoc, save_spacydocs, load_spacey
 

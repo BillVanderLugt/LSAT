@@ -581,5 +581,11 @@ if __name__ == '__main__':
     runs = 100
     p_scores, r_scores, t_scores, c_scores = np.zeros(runs), np.zeros(runs), np.zeros(runs), np.zeros(runs)
     p_prob, r_prob, t_prob = np.zeros((runs, 50)), np.zeros((runs, 50)), np.zeros((runs, 50))
-    #custom_CV(runs=runs)
-    #predictions = combined_score(p_prob, r_prob)
+    custom_CV(runs=runs)
+
+    '''
+    Average score based on prompts alone:  0.924 0.112356575242
+    Average score based on rules alone:  0.882 0.129907659512
+    Average score based on tags alone:  0.768 0.195386795869
+    Average score based on all three:  0.946 0.0887918915217
+    '''
