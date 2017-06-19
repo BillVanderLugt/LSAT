@@ -2,17 +2,26 @@ import pandas as pd
 import pickle
 
 class LSAT(object):
+    '''
+    Create an LSAT class to contain the data from actual LSAT tests.
+    '''
 
     def __init__(self):
         self.prompts = []
         self.rules = []
+        self.questions = []
+        self.answers = []
         self.prompts_pos = []
         self.rules_pos = []
+        self.questions_pos = []
+        self.answers_pos = []
 
     def load(self, file):
         '''
-        loads game categorizations and returns a array,
-        ready for conversion into a pandas DataFrame
+        Load game categorizations from text file.
+
+        Input: file to load_pickle
+        Return: a array, ready for conversion into a pandas DataFrame
         '''
 
         array = []
@@ -44,22 +53,30 @@ class LSAT(object):
 
     def populate_lists(self):
         '''
-        generate list versions of sentences from prompts and rules
+        Generate list versions of sentences from prompts and rules
         '''
         for game in Lsat.keyed.iterrows():
-            # print ('############## processing game #: {} #################'.format(game[0]))
             output = []
             for sent in prompts[game[0]]:
-                # print (sent)
                 output.append([w for w in sent.split(' ')])
-            prompts_as_list[game[0]] = output
 
             output = []
             for sent in rules[game[0]]:
-                # print (sent)
                 output.append([w for w in sent.split(' ')])
-            rules_as_list[game[0]] = output
         return output
+
+    def _editor(self, line):
+        '''
+        Add space to prevent SpaCy from mistaking some variables for abreviations.
+        '''
+        if len(line) < 2:
+            return line
+        elif (line[-1]=='.'):
+            if line[-2].isupper():
+                line = line[:-1] + ' .'
+            if line[-2].isdigit():
+                line = line[:-1] + ' .'
+        return line
 
     def read_prompts(self):
         names = ['Book_One_prompts.txt', 'Vol_V_prompts.txt', \
@@ -71,36 +88,54 @@ class LSAT(object):
                 line = f.readline().strip()
                 while line != '--END--':
                     #print (line)
-                    if line[:4]=="####":
+                    if line[:4]=="####": # new type
                         contents = line.split(' ')
                         _, *type, _ = contents
                         line = f.readline().strip()
-                    if line[:3]=="###":
+                    if line[:3]=="###": # new game
                         contents = line.split(' ')
                         # print ('lenth of line 2', len(contents))
                         _, month, year, _, game_num, _ = contents
                         #line = f.readline().strip()
                         # print
-                        # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
-                        line = f.readline().strip()
+                        print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
+                        line = self._editor(f.readline().strip())
                         prompt = []
-                        while line[:2]!='##':
+                        while (line[:2]!='##') and (line[:2]!='**'):
                             prompt.append(line)
-                            line = f.readline().strip()
-                            #print ("prompt line", line)
-                        #line = f.readline() # eat spacer
+                            line = self._editor(f.readline().strip())
                         rule_list = []
-                        line = f.readline().strip()
-                        while line[:2]!='##' and line!='--END--':
+                        line = self._editor(f.readline().strip())
+                        while (line[:2]!='##') and (line!='--END--') and (line[:2]!='**'):
                             rule_list.append(line)
-                            line = f.readline().strip()
+                            line = self._editor(f.readline().strip())
                             #print ("rule line", line)
-                        # print (name, *type, 'mo', month, 'yr', year, 'game', game_num)
-                        # print ("PROMPT:")
-                        # print (prompt)
-                        # print ("rules:")
-                        # print (rule_list)
-                        # print (month, year, int(game_num))
+                        quest_list = []
+                        quest_labels = []
+                        all_five_answers_list = [] # without letter
+                        all_five_answers_list_raw = [] # with letter attached
+                        print ('questions to parse?')
+                        print ('current line is ', line)
+                        while line[:2]=='**': # check if have any questions to parse
+                            # for now can ignore line containing original question numbers
+                            question = f.readline().strip() # get question
+                            q_labels = f.readline().strip().split(',') # get comma-sep labels
+                            quest_list.append(question) # save questions
+                            quest_labels.append(q_labels) # save labels
+                            line = f.readline().strip() # pull up next line
+
+                            answer_list = []
+                            answer_list_raw = []
+                            print ('answers to parse?')
+                            while line[:1]=='%': # check if have any answers to parse
+                                print ('current answer is ', line)
+                                # for now can ignore line containing original question number
+                                answer_list.append(line[6:]) # save answers without letters
+                                answer_list_raw.append(line[2:]) # save answers with letters
+                                line = f.readline().strip() # pull up next line
+                            all_five_answers_list.append(answer_list)
+                            all_five_answers_list_raw.append(answer_list_raw)
+
                         subset = df[df.year==year]
                         subset = subset[subset.month==month]
                         subset = subset[subset.game_num==int(game_num)]          #(df.game_num==int(game_num))]
@@ -109,6 +144,10 @@ class LSAT(object):
                             idx = subset.index.tolist()[0]
                             prompts[idx] = prompt
                             rules[idx] = rule_list
+                            questions[idx] = quest_list
+                            question_labels[idx] = quest_labels
+                            answers[idx] = all_five_answers_list
+                            answers_raw[idx] = all_five_answers_list_raw
                         except:
                             print ("error: missing", month, year, int(game_num))
 
@@ -133,12 +172,16 @@ def save_pickle(file, name):
 
 def load_pickle(name):
     '''
-    returns unpickled file
+    Return unpickled file
     '''
     with open("classification_data/" + name + ".pkl") as f_un:
         file_unpickled = pickle.load(f_un)
     print ("done unpickling ", name)
     return file_unpickled
+
+def flatten_question_labels():
+    array = [label for labels in question_labels for label in labels]
+    return array
 
 if __name__ == '__main__':
     pd.set_option('display.max_rows', 500)
@@ -152,7 +195,6 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(array, columns=cols)
     df.index = df.index + 1 # since game_num starts at 1, test_num should too
-    #df['indices'] = df.index
     # for convenience create various subsets of the df:
     df_owned = Lsat.get_owned(df) # games I own ~ training data
     bible_games = df[df.values == 'Bible'] # games dissected in PowerScore's Bible
@@ -170,25 +212,22 @@ if __name__ == '__main__':
 
     prompts = [[] for i in range(df.shape[0])]
     rules = [[] for i in range(df.shape[0])]
-    parentheticals = [[] for i in range(df.shape[0])]
+    questions = [[] for i in range(df.shape[0])]
+    question_labels = [[] for i in range(df.shape[0])]
+    answers = {} # key = (game_num, quest_num, answer_num)
     prompts_as_spdoc = [[] for i in range(df.shape[0])] # each sent sep in list
     rules_as_spdoc = [[] for i in range(df.shape[0])] # each sent sep in list
+    questions_as_spdoc = [[] for i in range(df.shape[0])] # each sent sep in list
+    answers_as_spdoc = {} # key = (game_num, quest_num, answer_num) # extra nested list
     prompts_1_spdoc = [[] for i in range(df.shape[0])] # all prompts as 1 SpaCy doc
     rules_1_spdoc = [[] for i in range(df.shape[0])] # all rules as 1 SpaCy doc
-    prompts_tfidf = [[] for i in range(df.shape[0])]
-    rules_tfidf = [[] for i in range(df.shape[0])]
-    prompts_as_list = [[] for i in range(df.shape[0])] # stripped of parens
-    rules_as_list = [[] for i in range(df.shape[0])] # stripped of parens
-    prompts_pos_as_list = [[] for i in range(df.shape[0])]
-    rules_pos_as_list = [[] for i in range(df.shape[0])]
-    prompts_pos_plus_punct = [[] for i in range(df.shape[0])]
-    rules_pos_plus_punct = [[] for i in range(df.shape[0])]
-    #print ('init as', prompts)
+    questions_1_spdoc = [[] for i in range(df.shape[0])] # all questions as 1 SpaCy doc
+
     Lsat.read_prompts()
-    df.game_num[9]=2 # manual correction of wierd error
-    df.game_num[35]=1 # manual correction of wierd error
-    df.primary_type[9]='Basic Linear' # manual correction of wierd error
-    df.primary_type[35]='Basic Linear' # manual correction of wierd error
+    df.game_num[9]=2 # manual correction
+    df.game_num[35]=1 # manual correction
+    df.primary_type[9]='Basic Linear' # manual correction
+    df.primary_type[35]='Basic Linear' # manual correction
     counter = 0
     df['keyed_pr'] = False
     for i, p in enumerate(prompts):
@@ -198,31 +237,30 @@ if __name__ == '__main__':
             df.keyed_pr[i] = True
     Lsat.keyed = df[df.keyed_pr] # subset = those with prompts and rules keyed in
     Lsat.keyed_seq = Lsat.keyed[Lsat.keyed.primary_type=='Pure Sequencing']
+    Lsat.keyed_seq_lin = Lsat.keyed[Lsat.keyed.primary_type.isin(['Basic Linear', 'Pure Sequencing'])]
+    ql_array = flatten_question_labels()
+    ql_df = pd.DataFrame(ql_array, columns=['local', 'type', 'misc1', 'misc2'])
 
-    #print (df.groupby('primary_type').count())
     print ("Total sequencing games:", len(all_seq_games))
     print ("Owned sequencing games:", len(seq_games_owned))
-    #print (keyed_seq)
     print ("Keyed sequencing games:", len(Lsat.keyed_seq))
+    print (Lsat.keyed.groupby('primary_type').count())
 
     Lsat.populate_lists()
     Lsat.df = df
     Lsat.prompts = prompts
     Lsat.rules = rules
-    Lsat.prompts_as_list = prompts_as_list
-    Lsat.rules_as_list = rules_as_list
+    Lsat.questions = questions
+    Lsat.question_labels = question_labels
+    Lsat.answers = answers #
     Lsat.prompts_as_spdoc = prompts_as_spdoc
     Lsat.rules_as_spdoc = rules_as_spdoc
+    Lsat.questions_as_spdoc = questions_as_spdoc
+    Lsat.answers_as_spdoc = answers_as_spdoc # dict
     Lsat.prompts_1_spdoc = prompts_1_spdoc
     Lsat.rules_1_spdoc = rules_1_spdoc
-    Lsat.prompts_tfidf = prompts_tfidf
-    Lsat.rules_tfidf = rules_tfidf
-    Lsat.parentheticals = parentheticals # ((modified word1, ['contents1', 'contents2']),\
-                                         #  (modified word2, ['contents1']))
-    Lsat.prompts_pos_as_list = prompts_pos_as_list
-    Lsat.rules_pos_as_list = rules_pos_as_list
-    Lsat.prompts_pos_plus_punct = prompts_pos_plus_punct
-    Lsat.rules_pos_plus_punct = rules_pos_plus_punct
+    Lsat.questions_1_spdoc = questions_1_spdoc
+
     save_pickle(Lsat, 'LSAT_data')
 
     '''
@@ -297,7 +335,6 @@ Pure Sequencing                        23         6.460674          17.0        
 55 302 2013 December Pure Sequencing Vol V
 56 305 2013 December Basic Linear Vol V
 
-
 KEYED
                  month  year  published_as  test_num  game_num  \
 primary_type
@@ -305,4 +342,57 @@ Basic Linear        24    24            24        24        24
 Grouping            18    18            18        18        18
 Pure Sequencing     16    16            16        16        16
 
+In [97]: ql_df.sort(['type', 'misc1'])
+
+Out[97]:
+     local                             type                misc1          misc2
+41  global                   CANNOT be true                 None           None
+26  global                        cannot be              same as           None
+29  global                   cannot be true                order            one
+40  global                   cannot be true                order            one
+42  global                   cannot be true                order            one
+0    local                   cannot be true            statement           None
+1    local                   cannot be true            statement           None
+36   local                   cannot be true            statement           None
+44  global                  cannot be true.                 None           None
+10  global                      cannot have                order            one
+15   local       complete and accurate list             possible           None
+25  global         completely determined if        supply the if           None
+23  global                         could be        but cannot be           None
+24  global                         could be                order            one
+16  global        could be an accurate list                order            all
+12  global   could be completely determined        supply the if           None
+31   local                   could be false            statement           None
+39  global               could be the order                 None           None
+27  global                    could be true                order            all
+32  global                    could be true                order            all
+30   local                    could be true            statement           None
+33  global                    could be true            statement           None
+34   local                    could be true            statement           None
+38   local                    could be true            statement           None
+47   local                    could be true                 None           None
+46   local             could be true EXCEPT                 None           None
+4    local                         earliest                place           None
+9    local                         earliest                place           None
+18   local                 have to be false     = cannot be true           None
+3    local                         how many        can determine           None
+7   global                         how many                order          place
+11   local                         how many                order           None
+22  global                         how many                 None           None
+5   global                         last two                order            two
+2   global                           latest                place           None
+21   local                          maximum    can be determined           None
+20  global                          maximum   three most popular           None
+14   local                          minimum            different           None
+13   local                    must be false     = cannot be true           None
+8   global                     must be true            statement           None
+17  global                     must be true            statement           None
+28   local                     must be true            statement           None
+35   local                     must be true            statement           None
+37   local                     must be true            statement           None
+45  global                     must be true                 None           None
+43  global                rule substitution          same effect           None
+48  global                rule substitution         same effect?           None
+19  global                     total number             how many           None
+6   global                              who                place   must be true
 '''
