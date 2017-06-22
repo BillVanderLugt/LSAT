@@ -4,13 +4,13 @@
 The Law School Admissions Test (LSAT) includes a section on [analytical reasoning](http://www.lsac.org/jd/lsat/prep/analytical-reasoning) that asks test takers to solve logic puzzles.  The immediate goal of this project was to solve some of those puzzles and to answer LSAT questions about them.  By testing two different solutions to the problem, however, the project also explores larger questions about the roles that deep learning and linguistic expertise are likely to play in the future of Natural Language Processing (NLP).
 
 ## Motivation
-Within NLP, semantic parsing or natural language understanding remains largely an unsolved problem.  Aside from corpuses too vast for humans to read comfortably, the reading comprehension skills of the best NLP systems typically lag far behind those of humans.  This project explores the possibility that, even on a tiny corpus where size poses no challenge to a human reader, algorithms can sometimes outperform humans.  It also investigates two different approaches to semantic parsing: one based very loosely on state-of-the-art syntactic parsers like Parsey McParseface and the other based on Seq2Seq, Google's state-of-the-art neural machine translation (NMT) library.
+Within NLP, semantic parsing or natural language understanding remains largely an unsolved problem.  Aside from corpuses too vast for humans to read comfortably, the reading comprehension skills of the best NLP systems typically lag far behind those of humans.  This project explores the possibility that, even on a tiny corpus where size poses no challenge to a human reader, algorithms can sometimes outperform humans.  It also investigates two different approaches to semantic parsing: one based very loosely on syntactic parsers like Parsey McParseface (the product of research at Stanford and Google) and the other based on Seq2Seq, Google's state-of-the-art neural machine translation (NMT) library.
 
 ## Data
-My data consists of questions and answers from actual LSAT examinations.  Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For purposes of these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  For purposes of training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on the prompts and the rules for 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 held out for the test set.
+My data consists of questions and answers from actual LSAT examinations.  Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  When training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on the prompts and the rules for 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 held out for the test set.
 
 ##  The Seven Steps of the Puzzle-Solving Process
-To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Here, I briefly describe each and how I modeled it:
+To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Below, I describe how I approached each of these steps:
 
 ### Step 1: Classify the Game
 Because most LSAT puzzles fall into one of two basic categories, sequencing games or grouping games, the solver's first task is to read the game's initial prompt and rules to determine which type it represents: a sequencing game, where the goal is to determine the permissible orderings for a set of variables, or a grouping game, where the object is to determine which variables may or may not belong within different sets.
@@ -71,14 +71,26 @@ Like the LSAT questions, the answers require some understanding of their potenti
 The final step of the process is identifying the correct answer from among the 5 multiple-choice candidates.  Here, both humans and machines must carefully keep in mind the nature of the question being asked and test each answer with that particular question-type in mind.  Am I looking for an answer that "could be true", "could be false EXCEPT", etc.? 
 
 ## Results
-### The Classification Problem from Step One 
+### The Classification Problem from Step 1 
+As described above, I was not overly concerned with getting great results on Step 1.  My initial efforts yielded over 90% accuracy, which was sufficient to get me started:
 ![CFG](step1_results.png)
 
 ### Step 3-Model #1: Using Grammar-Based Heuristics to Parse Rules
+As described above, my grammar-based, heuristic parser remains very crude since it does not include the recursive functionality that would render it a proper parser.  Even without any machine learning or recursion, however, my algorithm sufficed to parse many of the rules because the nesting typically only involves a handful of CFG transformations and thus a handful of nested layers.
+
 ![parser_results](parser_results.png)
 
 ### Step 3-Model #2: Using Seq2Seq to Translate Rules from English into Python
+For my Seq2Seq model, I simply adapted one of the simpler examples provided by Google: an example that did nothing more than reverse the order of the elements the source sequence.  Although I played with a few of the parameters, like bucketing and batch size, I was unable to improve on the out-of-the-box results produced by Seq2Seq's default settings for its attention-based model.  Understanding the different parameters, models, and architectures associated with Seq2Seq will take some time.  As Google provides additional tutorials and others begin to explore these new tools (which are, after all, only 2 months old), the community of people deploying these tools will no doubt grow.  For purposes of this project, I was happy simply to get a sense of the Seq2Seq's power:
+
 ![seq2seq](seq2seq_results.png)
+
+The most remarkable aspect of my results, however, was not their accuracy, but evidence that Seq2Seq was not merely memorizing examples provided to it.  After translating Seq2Seq's vocabulary indices back into the actual vocabulary, I discovered that Seq2Seq was sometimes generating labels that were different from mine, but equally valid.  In other words, it was creatively generating alternative solutions.
+In my labels, for example, I used abs(A-B)==x to express the difference between A and B.  Seq2Seq took a different approach.  It treated A>B and B<A as separate cases: (((B-A)==x) or ((A-B)==x)).  Its solution is thus equally valid and equally effective, but nevertheless different from the exact labeling system on which it was trained.  I was amazed that Seq2Seq was able to learn so much from only a small training set of 138 examples.  Its ability to generalize beyond the examples provided to it was truly impressive and stands in stark contrast to the fragility of my hand-crafted parsing model.
+
+## Concluding Question: Is Grammar Dead?
+
+Some might conclude from my little experiment that linguistic expertise has little to offer NLP and that neural nets can easily learn on their own whatever patterns linguists might identify.  It is interesting to note, however, that Google does not take this view.  The best performing syntactic parsers in the world, Parsey McParseface and its siblings in Google's SyntaxNet project, continue to rely on Context-Free Grammars devised by human linguists.  And while some at Google have achieved impressive results building syntactic parsers without any CFG's whatsoever (by generating enormous synthetic training sets of 11M labeled sentences!), Google continues to invest heavily in tools that both exploit and increase our understanding of syntax.  Google is evidently not convinced that grammar is dead, and neither am I.
 
 ## References
 ### Textbooks
