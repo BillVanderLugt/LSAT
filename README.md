@@ -9,7 +9,7 @@ Within NLP, semantic parsing or natural language understanding remains largely a
 ## Data
 My data consists of questions and answers from actual LSAT examinations.  Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For purposes of these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  For purposes of training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on the prompts and the rules for 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 held out for the test set.
 
-##  The Seven Steps of the Puzzle-Solving Process--for Humans and Machines Alike 
+##  The Seven Steps of the Puzzle-Solving Process
 To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Here, I briefly describe each and how I modeled it:
 
 ### Step 1: Classify the Game
