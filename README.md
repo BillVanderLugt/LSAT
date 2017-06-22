@@ -25,13 +25,13 @@ Each of these three models independently generates a probability that the game i
 
 Note, too, that the remaining steps of my model(s) presuppose that the game represents a sequencing puzzle.  Given that my primary goal was to build prototypes of different models, I limited myself one type of game (albeit a type that encompasses almost half of the LSAT's logic games).
 
-### Step Two: Set Up the Game
+### Step 2: Set Up the Game
 While I could have deployed spaCy's Named Entity Recognizer to identify the variables referenced in the prompts, I instead used spaCy's POS tagger and then extracted lists of the variable names from the prompts based on those POS tags and on the commas used to separate them.  Although my code can successfully handle various formats--such as compound variable names (most are single word or even a single letter) and lists that do or do not include the word "and" before the final element--I was not overly concerned with constructing a robust solution for this step of the problem.  
 
-In addition, Step Two populates a list of all the conceivable sequences of variables (before any rules have been applied to winnow that pool of candidates).  In other words, the initial pool consists of X factorial candidates, where X is the number of variables.  Thus, a game with 9 variables generates an initial pool of 9! = 362,880 permutations.
+In addition, Step 2 populates a list of all the conceivable sequences of variables (before any rules have been applied to winnow that pool of candidates).  In other words, the initial pool consists of X factorial candidates, where X is the number of variables.  Thus, a game with 9 variables generates an initial pool of 9! = 362,880 permutations.
 
-### Step Three: Parse the rules
-Step Three represents the most challenging and interesting part of this project: What is the best way to convert an English-language statement of a logical rule into a Boolean expression that can be evaluated by Python's compiler (to produce a True or False result when tested on a candidate sequence of variables)?
+### Step 3: Parse the rules
+Step 3 represents the most challenging and interesting part of this project: What is the best way to convert an English-language statement of a logical rule into a Boolean expression that can be evaluated by Python's compiler (to produce a True or False result when tested on a candidate sequence of variables)?
 
 This problem can be conceptualized in two different ways:
 
@@ -53,18 +53,18 @@ Precisely for that reason, I built a second model harnessing the incredible powe
 
 Accordingly, my doubts about Seq2Seq's viability in the context of translating English to Python stemmed less from its inherent power than from my ability to hand-label a sufficiently large training set.  Would 138 examples be enough for Seq2Seq to replicate my own efforts to understand the grammar governing the LSAT's sequencing games?
 
-#### Step Four: Apply the Rules to Winnow the Pool of Possible Solutions to the Game  
+#### Step 4: Apply the Rules to Winnow the Pool of Possible Solutions to the Game  
 Step Four simply takes the set of logical rules extracted in Step Three and applies them to the pool of candidates that was generated during Step Two.  For example, if a logical rule dictates that variable A must come after variable B, one would expect, without consideration of additional constraints, that half of the original permutations would fail and half would succeed.  For example, a game with 9 variables starts with 362,880 permutations.  But if A must come after B, only 181,440 permutations will survive application of that initial rule.  And if B must come after C, half of that set will be eliminated and so forth.  For most games, application of the initial rules winnows the pool of permissible solutions to less than 100 candidates.  On occasion, however, the set of acceptable candidates includes only a dozen or so permutations.  
 
-#### Step Five: Parse the Questions  
+#### Step 5: Parse the Questions  
 Precisely because the pool emerging from Step Four typically includes more than a dozen permissible orderings, many LSAT questions begin by imposing additional constraints that apply only in the context of that particular question.  Such questions are sometimes said to impose 'local' rules, as opposed to the 'global' rules parsed in Step Four.  To handle local rules, Step Five simply checks to determine whether the question begins with 'If...' or with a verb like 'Assume that...' since those are the ways that the test makers typically flag the appearance of a local rule.  
 
 Beyond that, one must determine what kind of information the so-called 'question stem' seeks.  Most often, you are being asked to determine what "must be true", "must be false", "could be true", or "could be false", but various negations like "CANNOT be true" and exceptions like "could be false EXCEPT" must also be accommodated, along with a handful of less common question types.  Again, since Step Three absorbed most of my attention, I did not implement functions to handle the less common question types and concentrated on the more common types.
 
-#### Step Six: Parse the Multiple Choice Answers
+#### Step 6: Parse the Multiple Choice Answers
 Like the questions, the answers require some understanding of their possible formats.  Here, too, I simply relied on my domain knowledge of those possible formats in order to hard-code some basic heuristics.  Just as human test takers quickly learn that an "If..." question is imposing a local rule, so too do they quickly learn to recognize the various answer formats.  Most answers consist of lists of variables (which require only rudimentary processing) or sentences (which again require handling by the more sophisticated models associated with Step Three).  Again, for my prototyping purposes, I did not find it necessary to tackle the more obscure answer formats; I stuck to the types that define 90% of the questions.
 
-#### Step Seven: Pick the Correct Answer
+#### Step 7: Pick the Correct Answer
 The final step, of course, requires the solver to identify the correct answer from among the 5 multiple-choice candidates.  Here, both humans and machines must carefully keep in mind the nature of the question being asked and test each answer with that particular question-type in mind.
 
 ## Results
