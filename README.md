@@ -9,38 +9,7 @@ Within NLP, semantic parsing or natural language understanding remains largely a
 ## Data
 My data consists of questions and answers from actual LSAT examinations.  Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For purposes of these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  For purposes of training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on the prompts and the rules for 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 held out for the test set.
 
-## References
-### Textbooks
-[_Foundations of Statistical Natural Language Processing_](https://nlp.stanford.edu/fsnlp/)  
-Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
-
-[_Speech and Language Processing_](https://web.stanford.edu/~jurafsky/slp3/)  
-Dan Jurafsky and James Martin
-
-[_Introduction to Information Retrieval_](https://nlp.stanford.edu/IR-book/)  
-Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
-
-### Articles
-[Globally Normalized Transition-Based Neural Networks] (https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)
-Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, Kuzman Ganchev, Slav Petrov and Michael Collins
-
-[Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)
-Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
-
-[Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)
-Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
-
-[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)
-Kai Sheng Tai, Richard Socher, Christopher D. Manning
-
-## Courses Covering Parsing and Machine Translation
-[Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)  
-Michael Collins
-
-[Natural Language Processing with Deep Learning (Stanford)](http://web.stanford.edu/class/cs224n/)  
-Richard Socher and Chris Manning
-
-##  Seven Steps of the Puzzle-Solving Process--for Humans and Machines Alike 
+##  The Seven Steps of the Puzzle-Solving Process--for Humans and Machines Alike 
 To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Here, I briefly describe each and how I modeled it:
 
 ###Step 1: Classify the Game
@@ -76,7 +45,6 @@ This project thus afforded me an opportunity to learn more about Google's state-
 The most interesting part of building the Parser was working out the unique grammar that governs the LSAT's sequencing games and considering how best to translate those sentence structures into a syntax that can be read by Python's compiler.  With the aid of LSAT test prep materials produced by companies like PowerScore and Kaplan, I discovered that the structures defining LSAT sequencing rules constitute a Context-Free Grammar insofar as the pieces into which any given component might be decomposed are never affected by that component's surrounding context.  More importantly, in comparison to the extraordinary richness and diversity of ordinary English sentences, the possibilities for LSAT rule statements remain very narrowly circumscribed.  Whereas the Context-Free Grammars (CFGs) used to train the state-of-the-art syntactical parsers produced by Stanford and Google must accommodate thousands of permissible CFG expressions/transformations, only nine transformations are required to parse the logical rules defining the LSAT's sequencing games:
 
 
-  
 
 Given more time, I would have preferred to convert those nine rules into a properly recursive parser, capable of accommodating logical rules of potentially infinite complexity.  In such model, there would, in theory, be no limit to the number of expansions/transformations produced by the Context-Free Grammar.  In other words, there would be limits neither to the number of branches within the grammatical tree nor to the levels of depth within it.  Recursive structures could be nested over and over again.  
 
@@ -105,4 +73,33 @@ The final step, of course, requires the solver to identify the correct answer fr
 ###The Classification Problem from Step One 
 
 
+## References
+### Textbooks
+[_Foundations of Statistical Natural Language Processing_](https://nlp.stanford.edu/fsnlp/)  
+Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
 
+[_Speech and Language Processing_](https://web.stanford.edu/~jurafsky/slp3/)  
+Dan Jurafsky and James Martin
+
+[_Introduction to Information Retrieval_](https://nlp.stanford.edu/IR-book/)  
+Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
+
+### Articles
+[Globally Normalized Transition-Based Neural Networks] (https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)
+Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, Kuzman Ganchev, Slav Petrov and Michael Collins
+
+[Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)
+Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
+
+[Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)
+Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
+
+[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)
+Kai Sheng Tai, Richard Socher, Christopher D. Manning
+
+## Courses Covering Parsing and Machine Translation
+[Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)  
+Michael Collins
+
+[Natural Language Processing with Deep Learning (Stanford)](http://web.stanford.edu/class/cs224n/)  
+Richard Socher and Chris Manning
