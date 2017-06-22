@@ -12,7 +12,7 @@ My data consists of questions and answers from actual LSAT examinations.  Becaus
 ##  The Seven Steps of the Puzzle-Solving Process--for Humans and Machines Alike 
 To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Here, I briefly describe each and how I modeled it:
 
-###Step 1: Classify the Game
+### Step 1: Classify the Game
 Because most LSAT puzzles fall into one of two basic categories, sequencing games or grouping games, the solver's first task is to read the game's initial prompt and rules to determine which type it represents: a sequencing game, where the goal is to determine the permissible orderings for a set of variables, or a grouping game, where the object is to determine which variables may or may not belong within different sets.
 
 I approached this step by building a stacked model, consisting of three linear classifiers, each of which feeds into a second-level random forest model.  Each of the three linear classifiers utilizes a different data source:
@@ -25,12 +25,12 @@ Each of these three models independently generates a probability that the game i
 
 Note, too, that the remaining steps of my model(s) presuppose that the game represents a sequencing puzzle.  Given that my primary goal was to build prototypes of different models, I limited myself one type of game (albeit a type that encompasses almost half of the LSAT's logic games).
 
-###Step Two: Set Up the Game
+### Step Two: Set Up the Game
 While I could have deployed spaCy's Named Entity Recognizer to identify the variables referenced in the prompts, I instead used spaCy's POS tagger and then extracted lists of the variable names from the prompts based on those POS tags and on the commas used to separate them.  Although my code can successfully handle various formats--such as compound variable names (most are single word or even a single letter) and lists that do or do not include the word "and" before the final element--I was not overly concerned with constructing a robust solution for this step of the problem.  
 
 In addition, Step Two populates a list of all the conceivable sequences of variables (before any rules have been applied to winnow that pool of candidates).  In other words, the initial pool consists of X factorial candidates, where X is the number of variables.  Thus, a game with 9 variables generates an initial pool of 9! = 362,880 permutations.
 
-###Step Three: Parse the rules
+### Step Three: Parse the rules
 Step Three represents the most challenging and interesting part of this project: What is the best way to convert an English-language statement of a logical rule into a Boolean expression that can be evaluated by Python's compiler (to produce a True or False result when tested on a candidate sequence of variables)?
 
 This problem can be conceptualized in two different ways:
@@ -41,36 +41,34 @@ This problem can be conceptualized in two different ways:
 
 This project thus afforded me an opportunity to learn more about Google's state-of-the-art solutions to these two different problems, and challenged me to consider--as both a practical and a theoretical matter--which approach would work best for my problem.  To test both options, I constructed a model for each.
 
-####Model #1: The Semantic Parser
-The most interesting part of building the Parser was working out the unique grammar that governs the LSAT's sequencing games and considering how best to translate those sentence structures into a syntax that can be read by Python's compiler.  With the aid of LSAT test prep materials produced by companies like PowerScore and Kaplan, I discovered that the structures defining LSAT sequencing rules constitute a Context-Free Grammar insofar as the pieces into which any given component might be decomposed are never affected by that component's surrounding context.  More importantly, in comparison to the extraordinary richness and diversity of ordinary English sentences, the possibilities for LSAT rule statements remain very narrowly circumscribed.  Whereas the Context-Free Grammars (CFGs) used to train the state-of-the-art syntactical parsers produced by Stanford and Google must accommodate thousands of permissible CFG expressions/transformations, only nine transformations are required to parse the logical rules defining the LSAT's sequencing games:
-
-
+#### Model #1: The Semantic Parser
+The most interesting part of building the Parser was working out the unique grammar that governs the LSAT's sequencing games and considering how best to translate those sentence structures into a syntax that can be read by Python's compiler.  With the aid of LSAT test prep materials produced by companies like PowerScore and Kaplan, I discovered that the structures defining LSAT sequencing rules constitute a Context-Free Grammar insofar as the pieces into which any given component might be decomposed are never affected by that component's surrounding context.  More importantly, in comparison to the extraordinary richness and diversity of ordinary English sentences, the possibilities for LSAT rule statements remain very narrowly circumscribed.  Whereas the Context-Free Grammars (CFGs) used to train the state-of-the-art syntactical parsers produced by Stanford and Google must accommodate thousands of permissible CFG expressions/transformations, only nine transformations are required to parse the logical rules defining the LSAT's sequencing games.
 
 Given more time, I would have preferred to convert those nine rules into a properly recursive parser, capable of accommodating logical rules of potentially infinite complexity.  In such model, there would, in theory, be no limit to the number of expansions/transformations produced by the Context-Free Grammar.  In other words, there would be limits neither to the number of branches within the grammatical tree nor to the levels of depth within it.  Recursive structures could be nested over and over again.  
 
 For purposes of handling the types of questions that typically appear on actual LSAT examinations, however, such recursive structures were largely unnecessary.  The rules that define most LSAT puzzles are relatively straightforward.  If one conceptualizes LSAT rules using a CFG, one discovers that most rules can be parsed using only a handful of CFG expansions; the corresponding grammatical trees are typically only two, three, or four layers deep.  Because the Parser adds a pair of parentheses each time it applies a CFG expansion, this means that the resulting Python expressions rarely contain more than three or four nested sets of parentheses.  More importantly, one is unlikely to require the same CFG expansion/transformation more than once within a given LSAT rule.  As a result, I was able to obtain relatively robust results without implementing a genuinely recursive, full-featured parser.  For purposes of prototyping, I implemented a much simpler model, which assumes limited nesting and relies on crude textual heuristics when applying each of the nine CFG expansions/transformations.  By expanding the number of those heuristics (crafting an ever-longer set of if-then alternatives), one can, of course, expand the model's reach.  But without proper recursion or any machine learning, such heuristics remain exceedingly fragile and limited in scope.  And even with recursion, the task of devising appropriate heuristics remains labor-intensive at best and completely ungeneralizable at worst.
 
-####Model #2: The Translator (Seq2Seq)
+#### Model #2: The Translator (Seq2Seq)
 Precisely for that reason, I built a second model harnessing the incredible power and flexibility of neural nets.  Instead of painstakingly crafting a complex web of if-then heuristics, why not outsource that task to a neural net?  Specifically, why not see if one of the most promising new tools in NLP deep learning--Google's Seq2Seq--could be trained to transform English sentences into Python code entirely on its own?  Although Seq2Seq was initially created with languages in mind, many researchers are already busy exploring its potential applicability in other contexts, including (at Google itself) image captioning and content summarization.
 
 Accordingly, my doubts about Seq2Seq's viability in the context of translating English to Python stemmed less from its inherent power than from my ability to hand-label a sufficiently large training set.  Would 138 examples be enough for Seq2Seq to replicate my own efforts to understand the grammar governing the LSAT's sequencing games?
 
-####Step Four: Apply the Rules to Winnow the Pool of Possible Solutions to the Game  
+#### Step Four: Apply the Rules to Winnow the Pool of Possible Solutions to the Game  
 Step Four simply takes the set of logical rules extracted in Step Three and applies them to the pool of candidates that was generated during Step Two.  For example, if a logical rule dictates that variable A must come after variable B, one would expect, without consideration of additional constraints, that half of the original permutations would fail and half would succeed.  For example, a game with 9 variables starts with 362,880 permutations.  But if A must come after B, only 181,440 permutations will survive application of that initial rule.  And if B must come after C, half of that set will be eliminated and so forth.  For most games, application of the initial rules winnows the pool of permissible solutions to less than 100 candidates.  On occasion, however, the set of acceptable candidates includes only a dozen or so permutations.  
 
-####Step Five: Parse the Questions  
+#### Step Five: Parse the Questions  
 Precisely because the pool emerging from Step Four typically includes more than a dozen permissible orderings, many LSAT questions begin by imposing additional constraints that apply only in the context of that particular question.  Such questions are sometimes said to impose 'local' rules, as opposed to the 'global' rules parsed in Step Four.  To handle local rules, Step Five simply checks to determine whether the question begins with 'If...' or with a verb like 'Assume that...' since those are the ways that the test makers typically flag the appearance of a local rule.  
 
 Beyond that, one must determine what kind of information the so-called 'question stem' seeks.  Most often, you are being asked to determine what "must be true", "must be false", "could be true", or "could be false", but various negations like "CANNOT be true" and exceptions like "could be false EXCEPT" must also be accommodated, along with a handful of less common question types.  Again, since Step Three absorbed most of my attention, I did not implement functions to handle the less common question types and concentrated on the more common types.
 
-####Step Six: Parse the Multiple Choice Answers
+#### Step Six: Parse the Multiple Choice Answers
 Like the questions, the answers require some understanding of their possible formats.  Here, too, I simply relied on my domain knowledge of those possible formats in order to hard-code some basic heuristics.  Just as human test takers quickly learn that an "If..." question is imposing a local rule, so too do they quickly learn to recognize the various answer formats.  Most answers consist of lists of variables (which require only rudimentary processing) or sentences (which again require handling by the more sophisticated models associated with Step Three).  Again, for my prototyping purposes, I did not find it necessary to tackle the more obscure answer formats; I stuck to the types that define 90% of the questions.
 
-####Step Seven: Pick the Correct Answer
+#### Step Seven: Pick the Correct Answer
 The final step, of course, requires the solver to identify the correct answer from among the 5 multiple-choice candidates.  Here, both humans and machines must carefully keep in mind the nature of the question being asked and test each answer with that particular question-type in mind.
 
-##Results
-###The Classification Problem from Step One 
+## Results
+### The Classification Problem from Step One 
 
 
 ## References
