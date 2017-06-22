@@ -74,6 +74,12 @@ The final step of the process is identifying the correct answer from among the 5
 ### The Classification Problem from Step One 
 ![CFG](step1_results.png)
 
+### Model #1: Using Grammar-Based Heuristics to Parse
+![parser_results](parser_results.png)
+
+### Model #2: Using Seq2Seq to Translate English to Python
+![seq2seq](seq2seq_results.png)
+
 ## References
 ### Textbooks
 [_Foundations of Statistical Natural Language Processing_](https://nlp.stanford.edu/fsnlp/)  
