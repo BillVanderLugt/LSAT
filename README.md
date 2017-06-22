@@ -44,7 +44,7 @@ This project thus afforded me an opportunity to learn more about Google's state-
 #### Model #1: The Semantic Parser
 The most interesting part of building the Parser was working out the unique grammar that governs the LSAT's sequencing games and considering how best to translate those sentence structures into a syntax that can be read by Python's compiler.  With the aid of LSAT test prep materials produced by companies like PowerScore and Kaplan, I discovered that the structures defining LSAT sequencing rules constitute a Context-Free Grammar insofar as the pieces into which any given component might be decomposed are never affected by that component's surrounding context.  More importantly, in comparison to the extraordinary richness and diversity of ordinary English sentences, the possibilities for LSAT rule statements remain very narrowly circumscribed.  Whereas the Context-Free Grammars (CFGs) used to train the state-of-the-art syntactical parsers produced by Stanford and Google must accommodate thousands of permissible CFG expressions/transformations, only nine transformations are required to parse the logical rules defining the LSAT's sequencing games.
 
-![CFG](https://github.com/BillVanderLugt/LSAT/CFG_list.png)
+![CFG](CFG_list.png)
 
 Given more time, I would have preferred to convert those nine rules into a properly recursive parser, capable of accommodating logical rules of potentially infinite complexity.  In such model, there would, in theory, be no limit to the number of expansions/transformations produced by the Context-Free Grammar.  In other words, there would be limits neither to the number of branches within the grammatical tree nor to the levels of depth within it.  Recursive structures could be nested over and over again.  
 
