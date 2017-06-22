@@ -92,7 +92,7 @@ Dan Jurafsky and James Martin
 Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
 
 ### Articles
-[Globally Normalized Transition-Based Neural Networks] (https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)
+[Globally Normalized Transition-Based Neural Networks](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)
 Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, Kuzman Ganchev, Slav Petrov and Michael Collins
 
 [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)
