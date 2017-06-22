@@ -72,7 +72,7 @@ The final step of the process is identifying the correct answer from among the 5
 
 ## Results
 ### The Classification Problem from Step One 
-
+![CFG](step1_results.png)
 
 ## References
 ### Textbooks
