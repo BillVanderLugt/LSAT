@@ -74,10 +74,10 @@ The final step of the process is identifying the correct answer from among the 5
 ### The Classification Problem from Step One 
 ![CFG](step1_results.png)
 
-### Model #1: Using Grammar-Based Heuristics to Parse
+### Step 3-Model #1: Using Grammar-Based Heuristics to Parse Rules
 ![parser_results](parser_results.png)
 
-### Model #2: Using Seq2Seq to Translate English to Python
+### Step 3-Model #2: Using Seq2Seq to Translate Rules from English into Python
 ![seq2seq](seq2seq_results.png)
 
 ## References
@@ -92,21 +92,21 @@ Dan Jurafsky and James Martin
 Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze
 
 ### Articles
-[Globally Normalized Transition-Based Neural Networks](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)
+[Globally Normalized Transition-Based Neural Networks](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45377.pdf)  
 Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, Kuzman Ganchev, Slav Petrov and Michael Collins
 
-[Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)
+[Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)  
 Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
 
 [Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)
 Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
 
-[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)
+[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
 Kai Sheng Tai, Richard Socher, Christopher D. Manning
 
 ## Courses Covering Parsing and Machine Translation
-[Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)  
+[Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)    
 Michael Collins
 
-[Natural Language Processing with Deep Learning (Stanford)](http://web.stanford.edu/class/cs224n/)  
+[Natural Language Processing with Deep Learning (Stanford)](http://web.stanford.edu/class/cs224n/)    
 Richard Socher and Chris Manning
