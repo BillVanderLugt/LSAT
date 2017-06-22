@@ -72,7 +72,7 @@ The final step of the process is identifying the correct answer from among the 5
 
 ## Results
 ### The Classification Problem from Step 1 
-As described above, I was not overly concerned with getting great results on Step 1.  My initial efforts yielded over 90% accuracy, which was sufficient to get me started:  
+As described above, I was not overly concerned with getting great results on Step 1.  My initial efforts yielded 94% accuracy, which was sufficient to get me started:  
 
 ![CFG](step1_results.png)
 
