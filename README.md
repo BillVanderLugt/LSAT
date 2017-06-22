@@ -104,7 +104,7 @@ Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey H
 [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
 Kai Sheng Tai, Richard Socher, Christopher D. Manning
 
-## Courses Covering Parsing and Machine Translation
+### Courses Covering Parsing and Machine Translation
 [Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)    
 Michael Collins
 
