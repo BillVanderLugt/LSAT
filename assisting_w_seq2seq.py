@@ -200,7 +200,7 @@ def gen_train_dev_test_idx(dev_samps=10, test_samps=5):
     Input: number of dev samples and number of test set samples.
     Return: indices for training, development, and test sets
     '''
-    np.random.seed(seed=1)
+    np.random.seed(seed=11)
     idx = list(range(0,30)) + list(range(35,labdf.shape[0]))
     np.random.shuffle(idx)
     test_idx = list(range(30,35)) # cherry pick questions for game 145
