@@ -93,7 +93,7 @@ For my Seq2Seq model, I simply adapted one of the architectures provided by Goog
 
 ![seq2seq](seq2seq_results.png)
 
-The most remarkable aspect of my results was not their (mediochre) accuracy, but evidence that Seq2Seq was genuinely learning and not merely memorizing.  After mapping Seq2Seq's integer outputs back onto my original vocabulary, I discovered that Seq2Seq was sometimes generating labels that were different from mine, but equally valid.  In other words, it was creatively generating alternative solutions.
+The most remarkable aspect of my results was not their (mediocre) accuracy, but rather evidence that Seq2Seq was genuinely learning and not merely memorizing.  After mapping Seq2Seq's integer outputs back onto my original vocabulary, I discovered that Seq2Seq was sometimes generating labels that were different from mine, but equally valid.  In other words, it was creatively generating alternative solutions.
 In my labels, for example, I used abs(A-B)==x to express the difference between A and B.  Seq2Seq took a different approach.  It treated A>B and B<A as separate cases: (((B-A)==x) or ((A-B)==x)).  Its solution was thus equally valid and equally effective, but nevertheless different from the exact labeling system on which it was trained.  I was amazed that Seq2Seq was able to learn so much from only a small training set of 138 examples.  Its ability to generalize beyond the examples provided to it was truly impressive and stands in stark contrast to the fragility of my hand-crafted parsing model.
 
 ## Concluding Question: Is Grammar Dead?
