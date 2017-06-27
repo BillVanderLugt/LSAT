@@ -30,7 +30,7 @@ While I could have deployed spaCy's Named Entity Recognizer to identify the vari
 
 In addition, Step 2 populates a list of all the conceivable sequences of variables (before any rules have been applied to winnow that pool of candidates).  In other words, the initial pool consists of X factorial candidates, where X is the number of variables.  Thus, a game with 9 variables generates an initial pool of 9! = 362,880 permutations.
 
-### Step 3: Parse the rules
+### Step 3: Parse the Rules
 Step 3 represents the most challenging and interesting part of this project: What is the best way to convert an English-language statement of a logical rule into a Boolean expression that can be evaluated by Python's compiler (to produce a True or False result when tested on a candidate sequence of variables)?
 
 This problem can be conceptualized in two different ways:
