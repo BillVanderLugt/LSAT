@@ -1,17 +1,17 @@
 # **Solving LSAT Logic Games: A Tale of Two Models** ##
 
 ## Objective
-The Law School Admissions Test (LSAT) includes a section on [analytical reasoning](http://www.lsac.org/jd/lsat/prep/analytical-reasoning) that presents logic puzzles like this:
-
-![June2007](June_2007_sml.png)
-
-The immediate goal of this project was to solve some of those puzzles and to answer LSAT questions about them.  By testing two different solutions to the problem, however, the project also explores larger questions about the roles that deep learning and linguistic expertise are likely to play in the future of Natural Language Processing (NLP).
+The Law School Admissions Test (LSAT) includes a section on [analytical reasoning](http://www.lsac.org/jd/lsat/prep/analytical-reasoning) that requires test takers to solve logic games/puzzles.  The immediate goal of this project was to solve some of those puzzles and to answer LSAT questions about them.  By testing two different solutions to the problem, however, the project also explores larger questions about the roles that deep learning and linguistic expertise are likely to play in the future of Natural Language Processing (NLP).
 
 ## Motivation
 Within NLP, semantic parsing or natural language understanding remains largely an unsolved problem.  Aside from corpuses too vast for humans to read comfortably, the reading comprehension skills of the best NLP systems typically lag far behind those of humans.  This project explores the possibility that, even on a tiny corpus where size poses no challenge to a human reader, algorithms can sometimes outperform humans.  It also investigates two different approaches to semantic parsing: one based very loosely on syntactic parsers like Parsey McParseface (the product of research at Stanford and Google) and the other based on Seq2Seq, Google's state-of-the-art neural machine translation (NMT) library.
 
 ## Data
-My data consists of questions and answers from actual LSAT examinations.  Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  When training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 in the test set.
+My data consists of questions and answers from actual LSAT examinations like this:
+
+![June2007](June_2007_sml.png)
+
+Because those materials are copyrighted by the company that produces them, I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  When training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 in the test set.
 
 ##  The Seven Steps of the Puzzle-Solving Process
 To answer LSAT questions about logic games, seven steps must be performed, whether the puzzle solver is a human or a machine.  Below, I describe how I approached each of these steps:
