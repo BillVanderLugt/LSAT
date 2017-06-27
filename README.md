@@ -118,7 +118,7 @@ Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, 
 [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)  
 Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
 
-[Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)
+[Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)  
 Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
 
 [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
