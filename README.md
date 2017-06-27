@@ -118,7 +118,7 @@ Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, 
 [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)  
 Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
 
-[Syntax-aware Neural Machine Translation Using CCG](https://arxiv.org/pdf/1702.01147.pdf)
+[Syntax-aware Neural Machine Translation Using CCG](https://arxiv.org/pdf/1702.01147.pdf)  
 Maria Nadejde, Siva Reddy, Rico Sennrich, Tomasz Dwojak, Marcin Junczys-Dowmunt, Philipp Koehn, Alexandra Birch
 
 [Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)  
