@@ -98,7 +98,7 @@ In my labels, for example, I used abs(A-B)==x to express the difference between 
 
 ## Concluding Question: Is Grammar Dead?
 
-Some might conclude from this little experiment that linguistic expertise has little to offer NLP and that today's best neural nets can easily infer whatever patterns a human linguist is capable of identifying.  It is interesting to note, however, that Google does not take this view.  The best performing syntactic parsers in the world, Parsey McParseface and its siblings in Google's SyntaxNet project, continue to rely on Context-Free Grammars devised by human linguists.  And while some researchers at Google have achieved impressive results building syntactic parsers without any CFG's whatsoever (substituting enormous, synthetically generated training sets of 11M labeled sentences!), Google continues to invest heavily in tools that both exploit and increase our understanding of syntax.  Despite the undeniable power of deep learning for NLP, Google is not yet convinced that grammar is dead, and neither am I.
+Some might conclude from this little experiment that linguistic expertise has little to offer NLP and that today's best neural nets can easily infer whatever patterns a human linguist is capable of identifying.  It is interesting to note, however, that Google does not take this view.  The best performing syntactic parsers in the world, Parsey McParseface and its siblings in Google's SyntaxNet project, continue to rely on Context-Free Grammars devised by human linguists.  And while some researchers at Google have achieved impressive results building syntactic parsers without any CFG's whatsoever (substituting enormous, synthetically generated training sets of 11M labeled sentences!), Google continues to invest heavily in tools that both exploit and increase our understanding of syntax.  Despite the undeniable power of deep learning to learn grammatical structures entirely on its own, Google is not yet convinced that grammar is dead, and neither am I.  Indeed, [recent research](https://arxiv.org/pdf/1702.01147.pdf) in Machine Translation suggests that neural nets trained with the benefit of syntactic information perform better than neural nets trained without such information.
 
 ## References
 ### Textbooks
@@ -117,6 +117,9 @@ Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, 
 
 [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)  
 Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
+
+[Syntax-aware Neural Machine Translation Using CCG](https://arxiv.org/pdf/1702.01147.pdf)
+Maria Nadejde, Siva Reddy, Rico Sennrich, Tomasz Dwojak, Marcin Junczys-Dowmunt, Philipp Koehn, Alexandra Birch
 
 [Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)  
 Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
