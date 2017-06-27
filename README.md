@@ -3,7 +3,7 @@
 ## Objective
 The Law School Admissions Test (LSAT) includes a section on [analytical reasoning](http://www.lsac.org/jd/lsat/prep/analytical-reasoning) that presents logic puzzles like this:
 
-![June2007](June_2007_screenshot.png)
+![June2007](June_2007_sml.png)
 
 The immediate goal of this project was to solve some of those puzzles and to answer LSAT questions about them.  By testing two different solutions to the problem, however, the project also explores larger questions about the roles that deep learning and linguistic expertise are likely to play in the future of Natural Language Processing (NLP).
 
