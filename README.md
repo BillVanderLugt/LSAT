@@ -121,11 +121,12 @@ Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
 [Syntax-aware Neural Machine Translation Using CCG](https://arxiv.org/pdf/1702.01147.pdf)  
 Maria Nadejde, Siva Reddy, Rico Sennrich, Tomasz Dwojak, Marcin Junczys-Dowmunt, Philipp Koehn, Alexandra Birch
 
+[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
+Kai Sheng Tai, Richard Socher, Christopher D. Manning
+
 [Grammar as a Foreign Language](https://arxiv.org/pdf/1412.7449.pdf)  
 Oriol Vinyals, Lukasz Kaiser, Terry Koo, Slav Petrov, Ilya Sutskever, Geoffrey Hinton
 
-[Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
-Kai Sheng Tai, Richard Socher, Christopher D. Manning
 
 ### Courses Covering Parsing and Machine Translation
 [Natural Language Processing (Columbia)](http://www.cs.columbia.edu/~cs4705/)    
