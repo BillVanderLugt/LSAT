@@ -9,7 +9,7 @@ Within NLP, semantic parsing or natural language understanding remains largely a
 ## Data
 My data consists of questions and answers from actual LSAT examinations like this:
 
-![June2007](June_2007_sml.png)
+![June2007](images/June_2007_sml.png)
 
 Because those materials are copyrighted by [the company that produces them](https://www.lsac.org/), I have not included my data set in this repository.  Nor was I able to train my models on the entire corpus of publicly available LSAT tests.  For these initial prototypes, my data set was limited to a set of 50 puzzles (25 sequencing-type games and 25 grouping-type games).  When training a model to classify LSAT games as either sequencing or grouping puzzles, I trained on 45 games and held out 5 sets for testing.  For purposes of parsing the logical rules that accompany each game, I trained on a set of 153 labeled rules, with 138 rules in the training set and 15 in the test set.
 
