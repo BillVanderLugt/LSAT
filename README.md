@@ -54,7 +54,7 @@ In fact, there is in theory no limit to the number of times that a Boolean can b
 
 In comparison to the extraordinary richness and diversity of ordinary English sentences, the possibilities for LSAT rule statements remain very narrowly circumscribed.  Whereas the CFGs used to train the state-of-the-art syntactical parsers produced by Stanford and Google must accommodate thousands of permissible CFG transformations/decompositions, only nine CFG transformations are needed for my problem:
 
-![CFG](CFG_list_sml.png)
+![CFG](images/CFG_list_sml.png)
 
 Those 9 CFG transformations are nevertheless capable of generating an infinite variety of logical/grammatical structures.  And, given more time, I would have preferred to implement those 9 rules within a properly recursive parser, capable of nesting structures many layers deep.  Such a model could, in theory, handle any number of branches and any level of depth.  Armed with fully recursive capabilities, a machine parser could likely outperform humans on complicated logical structures.
 
@@ -85,17 +85,17 @@ The final step of the process is identifying the correct answer from among the 5
 ### The Classification Problem from Step 1 
 As described above, I was not overly concerned with getting great results on Step 1.  My initial efforts yielded 94% accuracy, which was sufficient to get me started:  
 
-![CFG](step1_results.png)
+![CFG](images/step1_results.png)
 
 ### Step 3-Model #1: Using Grammar-Based Heuristics to Parse Rules
 As described above, my grammar-based, heuristic parser remains very crude since it does not include the recursive functionality that would render it a proper parser.  Even without any machine learning or recursion, however, my algorithm sufficed to parse many of the rules because the nesting typically only involves a handful of CFG transformations and thus a handful of nested layers.
 
-![parser_results](parser_results.png)
+![parser_results](images/parser_results.png)
 
 ### Step 3-Model #2: Using Seq2Seq to Translate Rules from English into Python
 For my Seq2Seq model, I simply adapted one of the architectures provided by Google in an example.  Although I played with a few of the parameters, like bucketing and batch size, I was unable to improve on the out-of-the-box results produced by Seq2Seq's default settings for its attention-based model.  Understanding the different parameters, models, and architectures associated with Seq2Seq will take some time.  As Google provides additional tutorials and as others begin to explore these new tools (which are, after all, only 2 months old), the community of people experimenting with them will no doubt grow.  For purposes of this project, I was happy simply to get a sense of Seq2Seq's power:
 
-![seq2seq](seq2seq_results.png)
+![seq2seq](images/seq2seq_results.png)
 
 The most remarkable aspect of my results was not their (mediocre) accuracy, but rather evidence that Seq2Seq was genuinely learning and not merely memorizing.  After mapping Seq2Seq's integer outputs back onto my original vocabulary, I discovered that Seq2Seq was sometimes generating labels that were different from mine, but equally valid.  In other words, it was *creatively generating alternative solutions!*
 In my labels, for example, I used abs(A-B)==x to express the difference between A and B.  Seq2Seq took a different approach.  It treated A>B and B<A as separate cases: (((B-A)==x) or ((A-B)==x)).  Its solution was thus equally valid and equally effective, but nevertheless different from the exact labeling system on which it was trained.  I was amazed that Seq2Seq was able to learn so much from only a small training set of 138 examples.  Its ability to generalize beyond the examples provided to it was truly impressive and stands in stark contrast to the fragility of my hand-crafted parsing model.
