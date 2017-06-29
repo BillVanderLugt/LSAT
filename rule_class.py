@@ -1,56 +1,3 @@
-poss = ['NN', 'NNP', 'NNPS', 'NNS', 'CD', 'VBG'] # possible pos for variables
-comparitors = ['JJR', 'IN', 'RBR'] # pos that can function as comparitors
-ordinals = {'first': 0,
-            'second': 1,
-            'third': 2,
-            'fourth': 3,
-            'fifth': 4,
-            'sixth': 5,
-            'seventh': 6,
-            'eighth': 7,
-            'ninth': 8,
-                '1': 0,
-                '2': 1,
-                '3': 2,
-                '4': 3,
-                '5': 4,
-                '6': 5,
-                '7': 6,
-                '8': 7,
-                '9': 8,
-            'last': '*'}
-
-expect = {  'could be the order': 'whole sequence',
-            'must be true': 'statement',
-            'could be true': 'statement',
-            'cannot be true': 'statement',
-            'must be': 'place',
-            'could be': 'place',
-            'cannot be': 'place',
-            'rule substitution': 'rule',
-            'accurate list': 'set',
-            'could be completely determined': 'rule',
-            'how many': 'number'
-            }
-
-comparitor_words = {'more': '<',
-                    'less': '>',
-                    'before': '<',
-                    'after': '>',
-                    'greater': '>',
-                    'higher': '>',
-                    'lower': '<',
-                    'closer': '<'}
-
-conjunctions = {'and': '|',
-                'or': '&',
-                'but': '^',
-                'not': 'not'}
-
-poss_blocks = set(('Var', 'Ord', 'Set'))
-
-keepers = set(ordinals) | set(conjunctions) | set(comparitor_words)
-
 class Rule(object):
 
     '''
@@ -299,3 +246,56 @@ class Rule(object):
             del second_half[first_idx[0]:first_idx[1]+1]
             expanded += ['('] + first_half + [self.output[conj]] + second_half + [')']
         self.output = expanded
+
+poss = ['NN', 'NNP', 'NNPS', 'NNS', 'CD', 'VBG'] # possible pos for variables
+comparitors = ['JJR', 'IN', 'RBR'] # pos that can function as comparitors
+ordinals = {'first': 0,
+            'second': 1,
+            'third': 2,
+            'fourth': 3,
+            'fifth': 4,
+            'sixth': 5,
+            'seventh': 6,
+            'eighth': 7,
+            'ninth': 8,
+                '1': 0,
+                '2': 1,
+                '3': 2,
+                '4': 3,
+                '5': 4,
+                '6': 5,
+                '7': 6,
+                '8': 7,
+                '9': 8,
+            'last': '*'}
+
+expect = {  'could be the order': 'whole sequence',
+            'must be true': 'statement',
+            'could be true': 'statement',
+            'cannot be true': 'statement',
+            'must be': 'place',
+            'could be': 'place',
+            'cannot be': 'place',
+            'rule substitution': 'rule',
+            'accurate list': 'set',
+            'could be completely determined': 'rule',
+            'how many': 'number'
+            }
+
+comparitor_words = {'more': '<',
+                    'less': '>',
+                    'before': '<',
+                    'after': '>',
+                    'greater': '>',
+                    'higher': '>',
+                    'lower': '<',
+                    'closer': '<'}
+
+conjunctions = {'and': '|',
+                'or': '&',
+                'but': '^',
+                'not': 'not'}
+
+poss_blocks = set(('Var', 'Ord', 'Set'))
+
+keepers = set(ordinals) | set(conjunctions) | set(comparitor_words)
