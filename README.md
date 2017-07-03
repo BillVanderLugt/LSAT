@@ -41,9 +41,9 @@ This problem can be conceptualized in two different ways:
 
 1) as a semantic parsing problem (for which a syntactic parser like Parsey McParseface provides a useful analogy)
 
-2) as a translation problem, where the source language is English and the target language is Python (the neural nets that Google developed to perform Machine Translation provide one solution)
+2) as a translation problem, where the source language is English and the target language is Python (and Google's NMT engine, Seq2Seq, provides an elegant solution)
 
-This project thus afforded me an opportunity to learn more about Google's state-of-the-art solutions to these two different problems, and challenged me to consider--as both a practical and a theoretical matter--which approach would work best for my problem.  To test both options, I constructed a model for each.
+This project thus afforded me an opportunity to learn more about Google's state-of-the-art solutions to these two different problems, and challenged me to consider--as both a practical and a theoretical matter--which approach would work best for my problem.  To test both options, I coded a model for each.
 
 #### Model #1: The Semantic Parser
 The most interesting part of building the Parser was working out the unique grammar that governs the LSAT's sequencing games and considering how best to translate those sentence structures into a syntax that can be read by Python's compiler.  With the aid of LSAT test prep materials produced by companies like PowerScore and Kaplan, I discovered that the structures defining LSAT sequencing rules constitute a Context-Free Grammar.  
