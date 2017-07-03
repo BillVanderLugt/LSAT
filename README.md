@@ -41,7 +41,7 @@ This problem can be conceptualized in two different ways:
 
 1) as a semantic parsing problem (for which a syntactic parser like Parsey McParseface provides a useful analogy)
 
-2) as a translation problem, where the source language is English and the target language is Python (and Google's NMT engine, Seq2Seq, provides an elegant solution)
+2) as a translation problem, where the source language is English and the target language is Python (and Google's NMT engine, [Seq2Seq](https://research.googleblog.com/2017/04/introducing-tf-seq2seq-open-source.html), provides an elegant solution)
 
 This project thus afforded me an opportunity to learn more about Google's state-of-the-art solutions to these two different problems, and challenged me to consider--as both a practical and a theoretical matter--which approach would work best for my problem.  To test both options, I coded a model for each.
 
