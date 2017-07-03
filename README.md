@@ -122,11 +122,15 @@ Daniel Andor, Chris Alberti, David Weiss, Aliasksei Severyn, Alessandro Presta, 
 [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/pdf/1409.0473.pdf)  
 Dzimitry Bahdanau, KyungHyun Cho, Yoshua Bengio
 
+[Announcing SyntaxNet: The World’s Most Accurate Parser Goes Open Source](https://research.googleblog.com/2016/05/announcing-syntaxnet-worlds-most.html)  
+Google Research
+
+[Introducing tf-seq2seq: An Open Source Sequence-to-Sequence Framework in TensorFlow]
+(https://research.googleblog.com/2017/04/introducing-tf-seq2seq-open-source.html)  
+Google Research
+
 [Syntax-aware Neural Machine Translation Using CCG](https://arxiv.org/pdf/1702.01147.pdf)  
 Maria Nadejde, Siva Reddy, Rico Sennrich, Tomasz Dwojak, Marcin Junczys-Dowmunt, Philipp Koehn, Alexandra Birch
-
-[Announcing SyntaxNet: The World’s Most Accurate Parser Goes Open Source](https://research.googleblog.com/2016/05/announcing-syntaxnet-worlds-most.html)
-Google Research
 
 [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://arxiv.org/pdf/1503.00075.pdf)  
 Kai Sheng Tai, Richard Socher, Christopher D. Manning
